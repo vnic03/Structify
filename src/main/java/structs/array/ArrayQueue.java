@@ -2,6 +2,7 @@ package structs.array;
 
 import structs.Queue;
 
+
 public class ArrayQueue<T> extends ArrayBase<T> implements Queue<T> {
 
     private int front;

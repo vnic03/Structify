@@ -1,11 +1,15 @@
-package structs.array.heap;
+package structs.heap;
 
 import structs.Queue;
 
+
 public class PriorityQueue<T extends Comparable<T>> implements Queue<T> {
 
+
     private final BaseHeap<T> heap;
+
     private final boolean isMin;
+
 
     public PriorityQueue(boolean isMin) {
         this.isMin = isMin;
@@ -31,7 +35,6 @@ public class PriorityQueue<T extends Comparable<T>> implements Queue<T> {
     public T peek() {
         return heap.peek();
     }
-
 
     @Override
     public boolean isEmpty() {

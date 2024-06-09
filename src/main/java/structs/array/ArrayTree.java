@@ -1,7 +1,6 @@
 package structs.array;
 
 import structs.Tree;
-import java.util.Arrays;
 
 
 public class ArrayTree<T> extends ArrayBase<T> implements Tree<T> {

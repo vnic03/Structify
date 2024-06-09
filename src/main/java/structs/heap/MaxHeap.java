@@ -1,6 +1,7 @@
-package structs.array.heap;
+package structs.heap;
 
 public class MaxHeap<T extends Comparable<T>> extends BaseHeap<T> {
+
 
     public MaxHeap(int capacity) { super(capacity); }
 
@@ -40,9 +41,6 @@ public class MaxHeap<T extends Comparable<T>> extends BaseHeap<T> {
         if (index >= size) return false;
         if (array[index].equals(x)) return true;
 
-
-        // If the current node is less than the target,
-        // stop the search here as all subsequent nodes are also smaller.
         if (array[index].compareTo(x) < 0) return false;
 
         return contains(getLeftChildIndex(index), x) ||

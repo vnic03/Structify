@@ -1,9 +1,9 @@
-package structs.array.heap;
+package structs.heap;
 
 import structs.Heap;
 import structs.array.ArrayBase;
-
 import java.util.Arrays;
+
 
 abstract class BaseHeap<T extends Comparable<T>> extends ArrayBase<T> implements Heap<T> {
 

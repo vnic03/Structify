@@ -1,6 +1,8 @@
-package structs.array.heap;
+package structs.heap;
+
 
 public class MinHeap<T extends Comparable<T>> extends BaseHeap<T> {
+
 
     public MinHeap(int capacity) { super(capacity); }
 

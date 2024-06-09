@@ -1,6 +1,7 @@
 package structs;
 
-public interface Heap<T> extends Tree<T> {
+
+public interface Heap<T extends Comparable<T>> extends Tree<T> {
 
     void heapify(T[] array);
 

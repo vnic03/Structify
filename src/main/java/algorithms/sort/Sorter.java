@@ -10,9 +10,9 @@ public interface Sorter<T extends Comparable<T>> {
     List<T> sort(List<T> list);
 
     default void swap(T[] array, int i, int j) {
-        T temp = array[i];
+        T tmp = array[i];
         array[i] = array[j];
-        array[j] = temp;
+        array[j] = tmp;
     }
 
     default void swap(List<T> list, int i, int j) {
