@@ -43,4 +43,22 @@ abstract class LinkedBase<T> {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{ size=").append(size).append(", elements=[");
+
+        Node<T> current = head;
+        while (current != null) {
+            sb.append(current.data);
+            if (current.next != null) {
+                sb.append(" -> ");
+            }
+            current = current.next;
+        }
+
+        sb.append("] }");
+        return sb.toString();
+    }
 }

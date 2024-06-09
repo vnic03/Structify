@@ -8,7 +8,7 @@ public interface Tree<T> extends Structure {
 
     boolean contains(T x);
 
-    T getRoot();
+    Object getRoot();
 
     int getHeight();
 }

@@ -34,7 +34,7 @@ public class ArrayList<T> extends ArrayBase<T> implements List<T> {
     public boolean remove(T element) {
         for (int i = 0; i < size; i++) {
             if (array[i].equals(element)) {
-                remove(i); // NOT RECURSIVE
+                remove(i);
                 return true;
             }
         }

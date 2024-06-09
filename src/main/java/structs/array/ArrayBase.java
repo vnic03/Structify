@@ -1,11 +1,12 @@
 package structs.array;
 
+import structs.Structure;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 
-public abstract class ArrayBase<T> implements Iterable<T> {
+public abstract class ArrayBase<T> implements Structure, Iterable<T> {
 
     protected T[] array;
 
@@ -70,5 +71,11 @@ public abstract class ArrayBase<T> implements Iterable<T> {
             }
             return array[current++];
         }
+    }
+
+    @Override
+    public String toString() {
+        if (this.isEmpty()) return "[]";
+        return Arrays.toString(this.array);
     }
 }
