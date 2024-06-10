@@ -23,7 +23,6 @@ public abstract class SkipList<T extends Comparable<T>> implements List<T> {
 
     private final Random random = new Random();
 
-
     @Override
     public void add(T x) {
         Node<T>[] update = new Node[MAX_LEVEL + 1];

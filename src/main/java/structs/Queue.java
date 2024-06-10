@@ -1,11 +1,11 @@
 package structs;
 
 
-public interface Queue<T> extends Structure<T> {
+public interface Queue<Q> extends Structure<Q> {
 
-    void enqueue(T x);
+    void enqueue(Q x);
 
-    T dequeue();
+    Q dequeue();
 
-    T peek();
+    Q peek();
 }

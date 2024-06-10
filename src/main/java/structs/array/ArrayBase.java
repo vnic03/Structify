@@ -74,6 +74,19 @@ public abstract class ArrayBase<T> implements Structure<T> {
     @Override
     public String toString() {
         if (this.isEmpty()) return "[]";
-        return Arrays.toString(this.array);
+
+        StringBuilder sb = new StringBuilder("[");
+        boolean first = true;
+        for (T element : array) {
+            if (element != null) {
+                if (!first) {
+                    sb.append(", ");
+                }
+                sb.append(element);
+                first = false;
+            }
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }

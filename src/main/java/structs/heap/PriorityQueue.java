@@ -3,7 +3,7 @@ package structs.heap;
 import structs.Queue;
 
 
-public class PriorityQueue<T extends Comparable<T>> implements Queue<T> {
+abstract public class PriorityQueue<T extends Comparable<T>> implements Queue<T> {
 
 
     private final BaseHeap<T> heap;
