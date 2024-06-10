@@ -77,14 +77,14 @@ abstract class BaseHeap<T extends Comparable<T>> extends ArrayBase<T> implements
         return true;
     }
 
-    protected abstract void heapifyUp(int index);
-
-    protected abstract void heapifyDown(int index);
-
     @Override
     public int getHeight() {
         return (int) Math.floor(Math.log(size) / Math.log(2));
     }
+
+    protected abstract void heapifyUp(int index);
+
+    protected abstract void heapifyDown(int index);
 
     @Override
     public T getRoot() {

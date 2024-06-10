@@ -43,6 +43,10 @@ public class QuickSort<T extends Comparable<T>> implements Sorter<T> {
         return left;
     }
 
+    private T pivot(T[] array, int left, int right) {
+        return array[left + random.nextInt(right - left + 1)];
+    }
+
     @Override
     public List<T> sort(List<T> list) {
         if (list.isEmpty()) return list;
@@ -81,10 +85,6 @@ public class QuickSort<T extends Comparable<T>> implements Sorter<T> {
             }
         }
         return left;
-    }
-
-    private T pivot(T[] array, int left, int right) {
-        return array[left + random.nextInt(right - left + 1)];
     }
 
     private T pivot(List<T> list, int left, int right) {

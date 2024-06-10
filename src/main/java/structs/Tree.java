@@ -1,6 +1,7 @@
 package structs;
 
-public interface Tree<T> extends Structure {
+
+public interface Tree<T> extends Structure<T> {
 
     boolean insert(T x);
 

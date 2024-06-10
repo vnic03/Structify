@@ -10,9 +10,9 @@ public class InsertionSort<T extends Comparable<T>> implements Sorter<T> {
         for (int j = 1; j < A.length; j++) {
             T key = A[j];
             int i = j - 1;
-            while (i >= 0 && A[i].compareTo(key) > 0) { // A[i] > key
+            while (i >= 0 && A[i].compareTo(key) > 0) {
                 A[i + 1] = A[i];
-                i--; // i = i - 1;
+                i--;
             }
             A[i + 1] = key;
         }

@@ -2,11 +2,8 @@ package structs.linked;
 
 import structs.List;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 
-
-public class LinkedList<T> extends LinkedBase<T> implements List<T>, Iterable<T> {
+public class LinkedList<T> extends LinkedBase<T> implements List<T> {
 
     @Override
     public void add(T x) {
@@ -149,29 +146,5 @@ public class LinkedList<T> extends LinkedBase<T> implements List<T>, Iterable<T>
     public void clear() {
         head = null;
         size = 0;
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return new LinkedListIterator();
-    }
-
-    private class LinkedListIterator implements Iterator<T> {
-
-        private Node<T> current = head;
-
-        @Override
-        public boolean hasNext() {
-            return current != null;
-        }
-
-        @Override
-        public T next() {
-            if (!hasNext()) throw new NoSuchElementException();
-
-            T data = current.data;
-            current = current.next;
-            return data;
-        }
     }
 }

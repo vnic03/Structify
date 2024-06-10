@@ -1,7 +1,11 @@
 package structs.linked;
 
+import structs.Structure;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-abstract class LinkedBase<T> {
+
+abstract class LinkedBase<T> implements Structure<T> {
 
     protected static class Node<T> {
         T data;
@@ -41,6 +45,28 @@ abstract class LinkedBase<T> {
     protected void e(int index) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new LinkedIterator();
+    }
+
+    private class LinkedIterator implements Iterator<T> {
+        private Node<T> current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) throw new NoSuchElementException();
+            T data = current.data;
+            current = current.next;
+            return data;
         }
     }
 

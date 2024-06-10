@@ -1,6 +1,7 @@
 package structs;
 
-public interface List<T> extends Structure {
+
+public interface List<T> extends Structure<T> {
 
     void add(T x);
 

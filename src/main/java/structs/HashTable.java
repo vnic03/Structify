@@ -4,7 +4,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 
-public interface HashTable<K, V> extends Structure {
+public interface HashTable<K, V> extends Structure<Entry<K, V>> {
 
     int DEFAULT_CAPACITY = 16;
 

@@ -1,7 +1,6 @@
 package structs.array;
 
 import structs.Stack;
-
 import java.util.Arrays;
 
 
@@ -19,6 +18,7 @@ public class ArrayStack<T> extends ArrayBase<T> implements Stack<T> {
         this.top = -1;
     }
 
+    @Override
     public void push(T x) {
         if (top == capacity - 1) resize(2 * capacity);
 
@@ -27,6 +27,7 @@ public class ArrayStack<T> extends ArrayBase<T> implements Stack<T> {
         size += 1;
     }
 
+    @Override
     public T pop() {
         if (top == -1) return null;
 
@@ -39,6 +40,7 @@ public class ArrayStack<T> extends ArrayBase<T> implements Stack<T> {
         return x;
     }
 
+    @Override
     public T peek() {
         return top != -1 ? array[top] : null;
     }

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 
-public abstract class ArrayBase<T> implements Structure, Iterable<T> {
+public abstract class ArrayBase<T> implements Structure<T> {
 
     protected T[] array;
 
@@ -66,9 +66,7 @@ public abstract class ArrayBase<T> implements Structure, Iterable<T> {
 
         @Override
         public T next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
+            if (!hasNext()) throw new NoSuchElementException();
             return array[current++];
         }
     }

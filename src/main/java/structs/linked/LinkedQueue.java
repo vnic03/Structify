@@ -2,6 +2,7 @@ package structs.linked;
 
 import structs.Queue;
 
+
 public class LinkedQueue<T> extends LinkedBase<T> implements Queue<T> {
 
     private Node<T> rear;

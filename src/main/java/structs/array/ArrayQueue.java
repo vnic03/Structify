@@ -21,6 +21,7 @@ public class ArrayQueue<T> extends ArrayBase<T> implements Queue<T> {
         this.rear = -1;
     }
 
+    @Override
     public void enqueue(T x) {
         if (size == capacity) return;
 
@@ -29,6 +30,7 @@ public class ArrayQueue<T> extends ArrayBase<T> implements Queue<T> {
         size += 1;
     }
 
+    @Override
     public T dequeue() {
         if (isEmpty()) return null;
 

@@ -1,13 +1,11 @@
 package structs;
 
 
-public interface Stack<T> extends Structure {
+public interface Stack<T> extends Structure<T> {
 
     void push(T x);
 
     T pop();
 
     T peek();
-
-    int search(T x);
 }

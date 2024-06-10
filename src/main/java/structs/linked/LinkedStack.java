@@ -2,6 +2,7 @@ package structs.linked;
 
 import structs.Stack;
 
+
 public class LinkedStack<T> extends LinkedBase<T> implements Stack<T> {
 
     @Override
@@ -26,7 +27,7 @@ public class LinkedStack<T> extends LinkedBase<T> implements Stack<T> {
         return head != null ? head.data : null;
     }
 
-    @Override
+
     public int search(T x) {
         Node<T> current = head;
         int i = 0;
