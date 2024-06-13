@@ -3,7 +3,7 @@ package structs.heap;
 import structs.Queue;
 
 
-abstract public class PriorityQueue<T extends Comparable<T>> implements Queue<T> {
+public class PriorityQueue<T extends Comparable<T>> implements Queue<T> {
 
 
     private final BaseHeap<T> heap;
@@ -49,5 +49,14 @@ abstract public class PriorityQueue<T extends Comparable<T>> implements Queue<T>
     @Override
     public void clear() {
         heap.clear();
+    }
+
+    public boolean changePriority(T old, T x) {
+        boolean removed = heap.remove(old);
+        if (removed) {
+            heap.insert(x);
+            return true;
+        }
+        return false;
     }
 }

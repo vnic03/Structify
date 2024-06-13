@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public abstract class Trie implements Tree<String> {
+public class Trie implements Tree<String> {
 
     private static class Node {
         Map<Character, Node> children = new HashMap<>();
