@@ -1,10 +1,12 @@
 package structs.probabilistic;
 
 import structs.List;
-
+import structs.Structure;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 
 public class SkipList<T extends Comparable<T>> implements List<T> {
@@ -22,11 +24,23 @@ public class SkipList<T extends Comparable<T>> implements List<T> {
         }
     }
 
-    private final Node<T> head = new Node<>(null, MAX_LEVEL);
+    private final Node<T> head;
 
     private final Random random = new Random();
 
     private int size = 0;
+
+
+    public SkipList() {
+        this.head = new Node<>(null, MAX_LEVEL);
+    }
+
+    public SkipList(SkipList<T> other) {
+        this();
+        for (T value : other) {
+            this.add(value);
+        }
+    }
 
 
     @Override
@@ -216,5 +230,31 @@ public class SkipList<T extends Comparable<T>> implements List<T> {
             current = current.forward[0];
             return value;
         }
+    }
+
+    @Override
+    public Structure<T> filter(Predicate<T> predicate) {
+        SkipList<T> result = new SkipList<>();
+        for (T value : this) {
+            if (predicate.test(value)) {
+                result.add(value);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public <M> Structure<M> map(Function<T, M> mapper) {
+        throw new UnsupportedOperationException(
+                "Use mapToComparable instead from " + this.getClass().getName()
+        );
+    }
+
+    public <M extends Comparable<M>> Structure<M> mapToComparable(Function<T, M> mapper) {
+        List<M> result = new SkipList<>();
+        for (T value : this) {
+            result.add(mapper.apply(value));
+        }
+        return result;
     }
 }
