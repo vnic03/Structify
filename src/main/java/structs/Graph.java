@@ -1,5 +1,6 @@
 package structs;
 
+import structs.graph.Edge;
 import java.util.List;
 import java.util.Set;
 
@@ -17,4 +18,6 @@ public interface Graph<T> extends Structure<T> {
     boolean containsEdge(T src, T dest);
 
     Set<T> getAllVertices();
+
+    List<Edge<T>> getEdges();
 }

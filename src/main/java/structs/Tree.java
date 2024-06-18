@@ -9,7 +9,23 @@ public interface Tree<T> extends Structure<T> {
 
     boolean contains(T x);
 
-    Object getRoot();
+    Node<T> getRoot();
 
     int getHeight();
+
+
+    interface Node<N> {
+
+        default Node<N> getLeft() {
+            throw new UnsupportedOperationException();
+        }
+
+        default Node<N> getRight() {
+            throw new UnsupportedOperationException();
+        }
+
+        default N getData() {
+            throw new UnsupportedOperationException();
+        }
+    }
 }

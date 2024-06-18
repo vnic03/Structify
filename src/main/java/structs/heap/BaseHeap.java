@@ -87,8 +87,8 @@ abstract class BaseHeap<T extends Comparable<T>> extends ArrayBase<T> implements
     protected abstract void heapifyDown(int index);
 
     @Override
-    public T getRoot() {
-        return peek();
+    public Node<T> getRoot() {
+        throw new UnsupportedOperationException("Use peek method instead");
     }
 
     protected void swap(int one, int two) {

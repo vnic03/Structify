@@ -15,11 +15,15 @@ public interface Structure<T> extends Iterable<T>, Cloneable, Serializable {
     void clear();
 
     default Structure<T> filter(Predicate<T> predicate) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(
+                "filter method not supported for " + this.getClass().getName()
+        );
     }
 
     default <M> Structure<M> map(Function<T, M> mapper) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(
+                "map method not supported for " + this.getClass().getName()
+        );
     }
 
     @Override
