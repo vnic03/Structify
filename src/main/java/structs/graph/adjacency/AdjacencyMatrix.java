@@ -2,7 +2,6 @@ package structs.graph.adjacency;
 
 import structs.Graph;
 import structs.matrix.Matrix;
-
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,6 +93,7 @@ public class AdjacencyMatrix<T> implements Matrix<Integer> {
 
     @Override
     public String toString() {
+        if (isEmpty()) return "[]";
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < rows; i++) {
             sb.append("[");
@@ -109,16 +109,16 @@ public class AdjacencyMatrix<T> implements Matrix<Integer> {
 
     @Override
     public Matrix<Integer> add(Matrix<Integer> other) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Not needed for this type of Matrix");
     }
 
     @Override
     public Matrix<Integer> multiply(Matrix<Integer> other) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Not needed for this type of Matrix");
     }
 
     @Override
     public Matrix<Integer> transpose() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Not needed for this type of Matrix");
     }
 }

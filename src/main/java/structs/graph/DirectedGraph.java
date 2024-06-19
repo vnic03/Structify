@@ -10,8 +10,8 @@ public class DirectedGraph<T> extends BaseGraph<T> {
     public List<T> getNeighbors(T vertex) {
         final List<T> neighbors = new ArrayList<>();
         for (Edge<T> edge : edges) {
-            if (edge.vertex1().equals(vertex)) {
-                neighbors.add(edge.vertex2());
+            if (edge.source().equals(vertex)) {
+                neighbors.add(edge.destination());
             }
         }
         return neighbors;

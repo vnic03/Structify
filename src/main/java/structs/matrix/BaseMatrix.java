@@ -76,6 +76,7 @@ abstract class BaseMatrix<T> implements Matrix<T> {
 
     @Override
     public String toString() {
+        if (isEmpty()) return "[]";
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < rows; i++) {
             sb.append("[");

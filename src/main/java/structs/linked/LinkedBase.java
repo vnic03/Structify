@@ -8,10 +8,10 @@ import java.util.NoSuchElementException;
 abstract class LinkedBase<T> implements Structure<T> {
 
     protected static class Node<T> {
-        T data;
-        Node<T> next;
+        protected T data;
+        protected Node<T> next;
 
-        Node(T data) {
+        protected Node(T data) {
             this.data = data;
             this.next = null;
         }

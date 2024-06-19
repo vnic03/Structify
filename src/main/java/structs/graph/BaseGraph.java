@@ -68,6 +68,16 @@ abstract class BaseGraph<T> implements Graph<T> {
 
     @Override
     public String toString() {
-        return super.toString();
+        if (isEmpty()) return "{ }";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Vertices: ").append(vertices.toString()).append("\n");
+        sb.append("Edges:\n");
+        for (Edge<T> edge : edges) {
+            sb.append(edge.source().toString())
+                    .append(" -> ")
+                    .append(edge.destination().toString())
+                    .append("\n");
+        }
+        return sb.toString();
     }
 }
