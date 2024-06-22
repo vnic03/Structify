@@ -12,13 +12,17 @@ import java.util.List;
 
 public interface Graph<T> extends Structure<T> {
 
-    void addVertex(T vertex);
+    void add(T vertex);
+
+    boolean remove(T vertex);
 
     void addEdge(T src, T dest);
 
+    boolean removeEdge(T src, T dest);
+
     List<T> getNeighbors(T vertex);
 
-    boolean containsVertex(T vertex);
+    boolean contains(T vertex);
 
     boolean containsEdge(T src, T dest);
 
@@ -26,9 +30,8 @@ public interface Graph<T> extends Structure<T> {
 
     List<Edge<T>> getEdges();
 
-    // TODO: remove
-
     default List<T> bfs(T start) {
+        if (!this.contains(start) || start == null) return null;
         if (!(this instanceof WeightedGraph)) {
             Queue<T> queue = new LinkedQueue<>();
             Set<T> visited = new HashSet<>();
@@ -54,6 +57,7 @@ public interface Graph<T> extends Structure<T> {
     }
 
     default List<T> dfs(T start) {
+        if (!this.contains(start) || start == null) return null;
         if (!(this instanceof WeightedGraph)) {
             Stack<T> stack = new ArrayStack<>();
             Set<T> visited = new HashSet<>();

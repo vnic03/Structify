@@ -1,10 +1,7 @@
 package structs.graph;
 
 import structs.Graph;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 abstract class BaseGraph<T> implements Graph<T> {
@@ -25,29 +22,51 @@ abstract class BaseGraph<T> implements Graph<T> {
     }
 
     @Override
-    public void addVertex(T vertex) {
-        vertices.add(vertex);
+    public void add(T vertex) {
+        if (!vertices.contains(vertex)) vertices.add(vertex);
     }
 
     @Override
     public void addEdge(T src, T dest) {
+        if (!vertices.contains(src)) {
+            throw new IllegalArgumentException(
+                    String.format("Source vertex %s does not exist in the graph!", src)
+            );
+        }
+        if (!vertices.contains(dest)) {
+            throw new IllegalArgumentException(
+                    String.format("Destination vertex %s does not exist in the graph!", dest)
+            );
+        }
         edges.add(new Edge<>(src, dest));
     }
 
     @Override
-    public boolean containsVertex(T vertex) {
+    public boolean contains(T vertex) {
         return vertices.contains(vertex);
     }
 
 
     @Override
     public Set<T> getAllVertices() {
-        return new HashSet<>(vertices);
+        return Set.copyOf(vertices);
     }
 
     @Override
     public List<Edge<T>> getEdges() {
-        return new ArrayList<>(edges);
+        return List.copyOf(edges);
+    }
+
+    @Override
+    public boolean remove(T vertex) {
+        if (!vertices.contains(vertex)) return false;
+        edges.removeIf(edge -> edge.source().equals(vertex) || edge.destination().equals(vertex));
+        return vertices.remove(vertex);
+    }
+
+    @Override
+    public boolean removeEdge(T src, T dest) {
+        return edges.removeIf(edge -> edge.source().equals(src) && edge.destination().equals(dest));
     }
 
     @Override
@@ -70,7 +89,7 @@ abstract class BaseGraph<T> implements Graph<T> {
     public String toString() {
         if (isEmpty()) return "{ }";
         StringBuilder sb = new StringBuilder();
-        sb.append("Vertices: ").append(vertices.toString()).append("\n");
+        sb.append("Vertices: ").append(vertices).append("\n");
         sb.append("Edges:\n");
         for (Edge<T> edge : edges) {
             sb.append(edge.source().toString())

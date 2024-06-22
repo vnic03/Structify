@@ -1,6 +1,7 @@
 package structs.heap;
 
 import structs.Queue;
+import java.util.Collection;
 
 
 public class PriorityQueue<T extends Comparable<T>> implements Queue<T> {
@@ -19,6 +20,22 @@ public class PriorityQueue<T extends Comparable<T>> implements Queue<T> {
     public PriorityQueue(int capacity, boolean isMin) {
         this.isMin = isMin;
         this.heap = isMin ? new MinHeap<>(capacity) : new MaxHeap<>(capacity);
+    }
+
+    public PriorityQueue(Collection<? extends T> collection, boolean isMin) {
+        this.isMin = isMin;
+        this.heap = isMin ? new MinHeap<>() : new MaxHeap<>();
+        for (T item : collection) {
+            heap.insert(item);
+        }
+    }
+
+    public PriorityQueue(Collection<? extends T> collection, int capacity, boolean isMin) {
+        this.isMin = isMin;
+        this.heap = isMin ? new MinHeap<>(capacity) : new MaxHeap<>(capacity);
+        for (T item : collection) {
+            heap.insert(item);
+        }
     }
 
     @Override
@@ -58,5 +75,10 @@ public class PriorityQueue<T extends Comparable<T>> implements Queue<T> {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return heap.toString();
     }
 }

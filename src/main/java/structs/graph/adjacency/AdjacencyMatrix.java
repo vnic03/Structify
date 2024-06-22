@@ -1,10 +1,9 @@
 package structs.graph.adjacency;
 
 import structs.Graph;
+import structs.graph.Edge;
 import structs.matrix.Matrix;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class AdjacencyMatrix<T> implements Matrix<Integer> {
@@ -20,7 +19,7 @@ public class AdjacencyMatrix<T> implements Matrix<Integer> {
 
     public AdjacencyMatrix(Graph<T> graph) {
         this.rows = graph.getAllVertices().size();
-        this.cols = graph.getAllVertices().size();
+        this.cols = this.rows;
         this.matrix = new BitSet(rows * cols);
         this.vertexIndexMap = new HashMap<>();
         initVIndexes(graph);
@@ -45,13 +44,12 @@ public class AdjacencyMatrix<T> implements Matrix<Integer> {
     }
 
     @Override
-    public int getRows() {
-        return rows;
-    }
+    public Integer get(int row, int col) {
+        if (row >= 0 && row < rows && col >= 0 && col < cols) {
+            int index = row * cols + col;
+            return matrix.get(index) ? 1 : 0;
 
-    @Override
-    public int getCols() {
-        return cols;
+        } else throw new IndexOutOfBoundsException();
     }
 
     @Override
@@ -62,18 +60,46 @@ public class AdjacencyMatrix<T> implements Matrix<Integer> {
             if (value == 1) matrix.set(index);
             else matrix.clear(index);
 
-        } else {
-            throw new IndexOutOfBoundsException();
+        } else throw new IndexOutOfBoundsException();
+    }
+
+    // TODO: Dopplungen vermeiden
+    public AdjacencyList<T> matrixToList(Graph<T> graph) {
+        AdjacencyList<T> list = new AdjacencyList<>(graph);
+        Set<Edge<T>> addedEdges = new HashSet<>();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (this.get(i, j) == 1) {
+                    T vertexI = getVertex(i);
+                    T vertexJ = getVertex(j);
+                    Edge<T> edge = new Edge<>(vertexI, vertexJ);
+                    if (!addedEdges.contains(edge)) {
+                        list.addEdge(vertexI, vertexJ);
+                        addedEdges.add(edge);
+                    }
+                }
+            }
         }
+        return list;
+    }
+
+    private T getVertex(int index) {
+        for (Map.Entry<T, Integer> entry : vertexIndexMap.entrySet()) {
+            if (entry.getValue().equals(index)) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
     @Override
-    public Integer get(int row, int col) {
-        if (row >= 0 && row < rows && col >= 0 && col < cols) {
-            int index = row * cols + col;
-            return matrix.get(index) ? 1 : 0;
+    public int getRows() {
+        return rows;
+    }
 
-        } else throw new IndexOutOfBoundsException();
+    @Override
+    public int getCols() {
+        return cols;
     }
 
     @Override
@@ -84,11 +110,16 @@ public class AdjacencyMatrix<T> implements Matrix<Integer> {
     @Override
     public void clear() {
         matrix.clear();
+        vertexIndexMap.clear();
     }
 
     @Override
     public int size() {
         return matrix.cardinality();
+    }
+
+    public int getVertexIndex(T vertex) {
+        return vertexIndexMap.getOrDefault(vertex, -1);
     }
 
     @Override

@@ -27,13 +27,32 @@ public class AdjacencyList<T> implements Structure<T> {
 
     private void create(Graph<T> graph) {
         for (T vertex : graph.getAllVertices()) {
-            List<T> neighbors = adjacency.get(vertex);
+            List<T> neighbors = adjacency.computeIfAbsent(vertex, k -> new LinkedList<>());
             neighbors.addAll(graph.getNeighbors(vertex));
         }
     }
 
     public List<T> getEdges(T vertex) {
         return adjacency.getOrDefault(vertex, new LinkedList<>());
+    }
+
+    protected void addEdge(T vertex, T neighbor) {
+        adjacency.computeIfAbsent(vertex, k -> new LinkedList<>()).add(neighbor);
+    }
+
+    public AdjacencyMatrix<T> listToMatrix(Graph<T> graph) {
+        AdjacencyMatrix<T> matrix = new AdjacencyMatrix<>(graph);
+
+        for (Map.Entry<T, List<T>> entry : adjacency.entrySet()) {
+            T vertex = entry.getKey();
+            int i = matrix.getVertexIndex(vertex);
+
+            for (T neighbor : entry.getValue()) {
+                int j = matrix.getVertexIndex(neighbor);
+                matrix.set(i, j, 1);
+            }
+        }
+        return matrix;
     }
 
     @Override

@@ -30,7 +30,7 @@ public class UndirectedGraph<T> extends BaseGraph<T> {
     public String toString() {
         if (isEmpty()) return "{ }";
         StringBuilder sb = new StringBuilder();
-        sb.append("Vertices: ").append(vertices.toString()).append("\n");
+        sb.append("Vertices: ").append(vertices).append("\n");
         sb.append("Edges:\n");
         for (Edge<T> edge : edges) {
             sb.append(edge.source().toString())
