@@ -1,0 +1,20 @@
+.structures {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+
+input, button {
+    margin: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+input {
+    width: calc(100% - 22px);
+}
+
+button {
+    width: 100px;
+}
