@@ -1,17 +1,21 @@
 package structs.graph;
 
+import structs.Graph;
 import java.util.Objects;
 import java.util.Optional;
 
-// param <V> Type of the Vertex
-public record Edge<V>(V source, V destination, Optional<Double> weight) implements Comparable<Edge<V>> {
 
-    public Edge(V source, V destination) {
-        this(source, destination, Optional.empty());
+// param <V> Type of the Vertex
+public record Edge<V>(Graph<V> graph, V source, V destination, Optional<Double> weight)
+        implements Comparable<Edge<V>>
+{
+
+    public Edge(Graph<V> graph, V source, V destination) {
+        this(graph, source, destination, Optional.empty());
     }
 
-    public Edge(V source, V destination, double weight) {
-        this(source, destination, Optional.of(weight));
+    public Edge(Graph<V> graph, V source, V destination, double weight) {
+        this(graph, source, destination, Optional.of(weight));
     }
 
     @Override
@@ -19,15 +23,22 @@ public record Edge<V>(V source, V destination, Optional<Double> weight) implemen
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Edge<?> edge = (Edge<?>) o;
-        return (Objects.equals(source, edge.source) && Objects.equals(destination, edge.destination) &&
-                Objects.equals(weight, edge.weight)) ||
-                (Objects.equals(source, edge.destination) && Objects.equals(destination, edge.source) &&
-                        Objects.equals(weight, edge.weight));
+        if (graph instanceof DirectedGraph) {
+            return Objects.equals(source, edge.source) &&
+                    Objects.equals(destination, edge.destination) &&
+                    Objects.equals(weight, edge.weight);
+        } else {
+            return (Objects.equals(source, edge.source) && Objects.equals(destination, edge.destination) &&
+                    Objects.equals(weight, edge.weight)) ||
+                    (Objects.equals(source, edge.destination) && Objects.equals(destination, edge.source) &&
+                            Objects.equals(weight, edge.weight));
+        }
     }
 
     @Override
     public String toString() {
-        return source + " -> " + destination + weight.map(w -> "[weight=" + w + "]").orElse("");
+        boolean directed = graph instanceof DirectedGraph;
+        return source + (directed ? "->" : "--") + destination + weight.map(w -> "[w: " + w + "]").orElse("");
     }
 
     @Override

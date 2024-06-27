@@ -27,21 +27,6 @@ abstract class BaseGraph<T> implements Graph<T> {
     }
 
     @Override
-    public void addEdge(T src, T dest) {
-        if (!vertices.contains(src)) {
-            throw new IllegalArgumentException(
-                    String.format("Source vertex %s does not exist in the graph!", src)
-            );
-        }
-        if (!vertices.contains(dest)) {
-            throw new IllegalArgumentException(
-                    String.format("Destination vertex %s does not exist in the graph!", dest)
-            );
-        }
-        edges.add(new Edge<>(src, dest));
-    }
-
-    @Override
     public boolean contains(T vertex) {
         return vertices.contains(vertex);
     }
@@ -93,7 +78,7 @@ abstract class BaseGraph<T> implements Graph<T> {
         sb.append("Edges:\n");
         for (Edge<T> edge : edges) {
             sb.append(edge.source().toString())
-                    .append(" -> ")
+                    .append(this instanceof DirectedGraph ? " -> " : " <---> ")
                     .append(edge.destination().toString())
                     .append("\n");
         }

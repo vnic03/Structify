@@ -1,5 +1,7 @@
 package structs.graph;
 
+import java.util.NoSuchElementException;
+
 
 public class WeightedDirectedGraph<T> extends DirectedGraph<T> implements WeightedGraph<T> {
 
@@ -15,8 +17,16 @@ public class WeightedDirectedGraph<T> extends DirectedGraph<T> implements Weight
                     String.format("Destination vertex %s does not exist in the graph!", dest)
             );
         }
-        Edge<T> edge = new Edge<>(src, dest, weight);
+        Edge<T> edge = new Edge<>(this, src, dest, weight);
         edges.add(edge);
+    }
+
+    @Override
+    public double getWeight(T src, T dest) {
+        return edges.stream()
+                .filter(edge -> edge.source().equals(src) && edge.destination().equals(dest))
+                .findFirst().flatMap(Edge::weight)
+                .orElseThrow(() -> new NoSuchElementException("src: " + src + " or dest: " + dest + " not found"));
     }
 
     @Override
@@ -27,18 +37,11 @@ public class WeightedDirectedGraph<T> extends DirectedGraph<T> implements Weight
     }
 
     @Override
-    public double getWeight(T src, T dest) {
-        return edges.stream()
-                .filter(edge -> edge.source().equals(src) && edge.destination().equals(dest))
-                .findFirst().flatMap(Edge::weight).orElse(Double.NaN);
-    }
-
-    @Override
     public String toString() {
         if (isEmpty()) return "{ }";
         StringBuilder sb = new StringBuilder();
         sb.append("Vertices: ").append(vertices).append("\n");
-        sb.append("Edges with weights:\n");
+        sb.append("Edges:\n");
         for (Edge<T> edge : edges) {
             sb.append(edge.source().toString())
                     .append(" -> ")

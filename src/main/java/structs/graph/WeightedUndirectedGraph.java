@@ -1,5 +1,7 @@
 package structs.graph;
 
+import java.util.NoSuchElementException;
+
 
 public class WeightedUndirectedGraph<T> extends UndirectedGraph<T> implements WeightedGraph<T> {
 
@@ -15,7 +17,7 @@ public class WeightedUndirectedGraph<T> extends UndirectedGraph<T> implements We
                     String.format("Destination vertex %s does not exist in the graph!", dest)
             );
         }
-        Edge<T> edge = new Edge<>(src, dest, weight);
+        Edge<T> edge = new Edge<>(this, src, dest, weight);
         edges.add(edge);
     }
 
@@ -23,7 +25,8 @@ public class WeightedUndirectedGraph<T> extends UndirectedGraph<T> implements We
     public double getWeight(T src, T dest) {
         return edges.stream()
                 .filter(e -> e.source().equals(src) && e.destination().equals(dest))
-                .findFirst().flatMap(Edge::weight).orElse(Double.NaN);
+                .findFirst().flatMap(Edge::weight)
+                .orElseThrow(() -> new NoSuchElementException("src: " + src + " or dest: " + dest + " not found"));
     }
 
     @Override
@@ -38,7 +41,7 @@ public class WeightedUndirectedGraph<T> extends UndirectedGraph<T> implements We
         if (isEmpty()) return "{ }";
         StringBuilder sb = new StringBuilder();
         sb.append("Vertices: ").append(vertices).append("\n");
-        sb.append("Edges with weights:\n");
+        sb.append("Edges:\n");
         for (Edge<T> edge : edges) {
             sb.append(edge.source().toString())
                     .append(" <---> ")

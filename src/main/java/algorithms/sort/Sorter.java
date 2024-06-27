@@ -1,5 +1,8 @@
 package algorithms.sort;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -19,5 +22,15 @@ public interface Sorter<T extends Comparable<T>> {
         T tmp = list.get(i);
         list.set(i, list.get(j));
         list.set(j, tmp);
+    }
+
+    default T[] reverseSort(T[] array) {
+        Arrays.sort(array, Comparator.reverseOrder());
+        return array;
+    }
+
+    default List<T> reverseSort(List<T> list) {
+        list.sort(Collections.reverseOrder());
+        return list;
     }
 }

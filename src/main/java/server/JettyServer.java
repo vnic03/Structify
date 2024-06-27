@@ -6,6 +6,7 @@ import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
+import server.servlet.BSTreeServlet;
 import server.servlet.QueueServlet;
 import server.servlet.StackServlet;
 
@@ -27,6 +28,9 @@ public class JettyServer {
 
         context.addServlet(new ServletHolder(new QueueServlet<>(Number.class)), "/structures/queue/number");
         context.addServlet(new ServletHolder(new QueueServlet<>(String.class)), "/structures/queue/string");
+
+        context.addServlet(new ServletHolder(new BSTreeServlet<>(Double.class)), "/structures/bst/number");
+        context.addServlet(new ServletHolder(new BSTreeServlet<>(String.class)), "/structures/bst/string");
 
 
         FilterHolder cors = context.addFilter(

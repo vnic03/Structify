@@ -19,8 +19,8 @@ public class QueueServlet<T> extends StructureServlet<T> {
     }
 
     @Override
-    protected void handleDelete(String action, HttpServletResponse resp) throws IOException {
-        if ("clear".equals(action)) (structure).clear();
+    protected void handleDelete(T value, String action, HttpServletResponse resp) throws IOException {
+        if ("clear".equals(action)) structure.clear();
         else ((Queue<T>) structure).dequeue();
         resp.setStatus(HttpServletResponse.SC_OK);
     }

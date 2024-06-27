@@ -51,10 +51,19 @@ abstract class StructureServlet<T> extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        handleDelete(action, resp);
+        BufferedReader reader = req.getReader();
+        StringBuilder body = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            body.append(line);
+        }
+        JsonObject json = gson.fromJson(body.toString(), JsonObject.class);
+        T value = gson.fromJson(json.get("value"), type);
+
+        handleDelete(value, action, resp);
     }
 
     protected abstract void handlePost(T value, HttpServletResponse resp) throws IOException;
 
-    protected abstract void handleDelete(String action, HttpServletResponse resp) throws IOException;
+    protected abstract void handleDelete(T value, String action, HttpServletResponse resp) throws IOException;
 }

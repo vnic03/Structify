@@ -1,5 +1,6 @@
 package structs.graph.adjacency;
 
+import annotation.NeedsFixing;
 import structs.Graph;
 import structs.graph.Edge;
 import structs.matrix.Matrix;
@@ -63,7 +64,7 @@ public class AdjacencyMatrix<T> implements Matrix<Integer> {
         } else throw new IndexOutOfBoundsException();
     }
 
-    // TODO: Dopplungen vermeiden
+    @NeedsFixing(reason = "List has duplicate values")
     public AdjacencyList<T> matrixToList(Graph<T> graph) {
         AdjacencyList<T> list = new AdjacencyList<>(graph);
         Set<Edge<T>> addedEdges = new HashSet<>();
@@ -72,7 +73,7 @@ public class AdjacencyMatrix<T> implements Matrix<Integer> {
                 if (this.get(i, j) == 1) {
                     T vertexI = getVertex(i);
                     T vertexJ = getVertex(j);
-                    Edge<T> edge = new Edge<>(vertexI, vertexJ);
+                    Edge<T> edge = new Edge<>(graph, vertexI, vertexJ);
                     if (!addedEdges.contains(edge)) {
                         list.addEdge(vertexI, vertexJ);
                         addedEdges.add(edge);

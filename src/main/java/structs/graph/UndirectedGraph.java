@@ -7,6 +7,21 @@ import java.util.List;
 public class UndirectedGraph<T> extends BaseGraph<T> {
 
     @Override
+    public void addEdge(T src, T dest) {
+        if (!vertices.contains(src)) {
+            throw new IllegalArgumentException(
+                    String.format("Source vertex %s does not exist in the graph!", src)
+            );
+        }
+        if (!vertices.contains(dest)) {
+            throw new IllegalArgumentException(
+                    String.format("Destination vertex %s does not exist in the graph!", dest)
+            );
+        }
+        edges.add(new Edge<>(this, src, dest));
+    }
+
+    @Override
     public List<T> getNeighbors(T vertex) {
         final List<T> neighbors = new ArrayList<>();
         for (Edge<T> edge : edges) {
@@ -23,21 +38,7 @@ public class UndirectedGraph<T> extends BaseGraph<T> {
 
     @Override
     public boolean containsEdge(T src, T dest) {
-        return edges.contains(new Edge<>(src, dest)) || edges.contains(new Edge<>(dest, src));
-    }
-
-    @Override
-    public String toString() {
-        if (isEmpty()) return "{ }";
-        StringBuilder sb = new StringBuilder();
-        sb.append("Vertices: ").append(vertices).append("\n");
-        sb.append("Edges:\n");
-        for (Edge<T> edge : edges) {
-            sb.append(edge.source().toString())
-                    .append(" <---> ")
-                    .append(edge.destination().toString())
-                    .append("\n");
-        }
-        return sb.toString();
+        return edges.contains(new Edge<>(this, src, dest)) ||
+                edges.contains(new Edge<>(this, dest, src));
     }
 }
