@@ -6,36 +6,36 @@ import java.util.Collection;
 
 public class PriorityQueue<T extends Comparable<T>> implements Queue<T> {
 
-
     private final BaseHeap<T> heap;
 
     private final boolean isMin;
 
 
     public PriorityQueue(boolean isMin) {
-        this.isMin = isMin;
-        this.heap = isMin ? new MinHeap<>() : new MaxHeap<>();
+        this(isMin ? new MinHeap<>() : new MaxHeap<>(), isMin);
     }
 
     public PriorityQueue(int capacity, boolean isMin) {
-        this.isMin = isMin;
-        this.heap = isMin ? new MinHeap<>(capacity) : new MaxHeap<>(capacity);
+        this(isMin ? new MinHeap<>(capacity) : new MaxHeap<>(capacity), isMin);
     }
 
     public PriorityQueue(Collection<? extends T> collection, boolean isMin) {
-        this.isMin = isMin;
-        this.heap = isMin ? new MinHeap<>() : new MaxHeap<>();
+        this(isMin ? new MinHeap<>() : new MaxHeap<>(), isMin);
         for (T item : collection) {
             heap.insert(item);
         }
     }
 
     public PriorityQueue(Collection<? extends T> collection, int capacity, boolean isMin) {
-        this.isMin = isMin;
-        this.heap = isMin ? new MinHeap<>(capacity) : new MaxHeap<>(capacity);
+        this(isMin ? new MinHeap<>(capacity) : new MaxHeap<>(capacity), isMin);
         for (T item : collection) {
             heap.insert(item);
         }
+    }
+
+    private PriorityQueue(BaseHeap<T> heap, boolean isMin) {
+        this.heap = heap;
+        this.isMin = isMin;
     }
 
     @Override

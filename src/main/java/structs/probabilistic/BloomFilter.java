@@ -61,6 +61,11 @@ public class BloomFilter<T> implements Structure<T> {
         return true;
     }
 
+    public void setBit(int index) {
+        if (index >= bitSetSize) throw new IllegalArgumentException();
+        bitSet.set(index);
+    }
+
     @Override
     public boolean isEmpty() {
         return bitSet.isEmpty();
@@ -74,5 +79,19 @@ public class BloomFilter<T> implements Structure<T> {
     @Override
     public void clear() {
         bitSet.clear();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < bitSetSize; i++) {
+            sb.append(bitSet.get(i) ? "1" : "0");
+            if (i < bitSetSize - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }

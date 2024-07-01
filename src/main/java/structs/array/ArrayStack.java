@@ -14,8 +14,7 @@ public class ArrayStack<T> extends ArrayBase<T> implements Stack<T> {
     }
 
     public ArrayStack() {
-        super(DEFAULT_CAPACITY);
-        this.top = -1;
+        this(DEFAULT_CAPACITY);
     }
 
     @Override

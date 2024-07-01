@@ -4,10 +4,13 @@ package structs.heap;
 public class MaxHeap<T extends Comparable<T>> extends BaseHeap<T> {
 
 
-    public MaxHeap(int capacity) { super(capacity); }
+    public MaxHeap(int capacity) {
+        super(capacity);
+    }
 
-    public MaxHeap() { super(); }
-
+    public MaxHeap() {
+        super();
+    }
 
     @Override
     protected void heapifyUp(int index) {

@@ -16,9 +16,7 @@ public class ArrayQueue<T> extends ArrayBase<T> implements Queue<T> {
     }
 
     public ArrayQueue() {
-        super(DEFAULT_CAPACITY);
-        this.front = 0;
-        this.rear = -1;
+       this(DEFAULT_CAPACITY);
     }
 
     @Override

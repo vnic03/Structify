@@ -4,10 +4,13 @@ package structs.heap;
 public class MinHeap<T extends Comparable<T>> extends BaseHeap<T> {
 
 
-    public MinHeap(int capacity) { super(capacity); }
+    public MinHeap(int capacity) {
+        super(capacity);
+    }
 
-    public MinHeap() { super(); }
-
+    public MinHeap() {
+        super();
+    }
 
     @Override
     protected void heapifyUp(int index) {

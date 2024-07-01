@@ -6,24 +6,24 @@ import java.util.*;
 
 abstract class BaseGraph<T> implements Graph<T> {
 
-    protected final List<T> vertices;
+    protected final Set<T> vertices;
 
     protected final List<Edge<T>> edges;
 
 
     protected BaseGraph() {
-        this.vertices = new ArrayList<>();
+        this.vertices = new HashSet<>();
         this.edges = new ArrayList<>();
     }
 
-    protected BaseGraph(List<T> vertices, List<Edge<T>> edges) {
-        this.vertices = new ArrayList<>(vertices);
-        this.edges = new ArrayList<>(edges);
+    protected BaseGraph(Set<T> vertices, List<Edge<T>> edges) {
+        this.vertices = Set.copyOf(vertices);
+        this.edges = List.copyOf(edges);
     }
 
     @Override
     public void add(T vertex) {
-        if (!vertices.contains(vertex)) vertices.add(vertex);
+        vertices.add(vertex);
     }
 
     @Override

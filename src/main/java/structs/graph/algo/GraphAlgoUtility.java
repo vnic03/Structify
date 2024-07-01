@@ -77,33 +77,72 @@ public class GraphAlgoUtility<T extends Comparable<T>> {
         return result;
     }
 
-    public Map<T, Double> bellmanFord(T start) {
-        if (graph instanceof WeightedGraph) {
+    public Map<T, Double> dijkstra(T start) {
+        check();
+        Map<T, Double> dist = new HashMap<>();
+        Map<T, T> pred = new HashMap<>();
+        Set<T> settledNodes = new HashSet<>();
+        PriorityQueue<Edge<T>> queue = new PriorityQueue<>(
+                Comparator.comparingDouble(e -> e.weight().orElseThrow())
+        );
 
-            Map<T, Double> dist = new HashMap<>();
-            Map<T, T> pred = new HashMap<>();
+        for (T vertex : graph.getAllVertices()) {
+            dist.put(vertex, Double.POSITIVE_INFINITY);
+        }
 
-            for (T vertex : graph.getAllVertices()) {
-                dist.put(vertex, Double.POSITIVE_INFINITY);
-            }
-            dist.put(start, 0.0);
+        dist.put(start, 0.);
 
-            int V = graph.getAllVertices().size();
+        queue.add(new Edge<>(graph, start, start, 0.));
 
-            for (int i = 0; i < V; i++) {
+        while (!queue.isEmpty()) {
+            T u = queue.poll().destination();
+            if (!settledNodes.contains(u)) {
+                settledNodes.add(u);
+
                 for (Edge<T> edge : graph.getEdges()) {
-                    relax(dist, pred, edge);
+                    if (edge.source().equals(u)) {
+
+                        T v = edge.destination();
+                        double weight = edge.weight().get();
+                        double newDist = dist.get(u) + weight;
+
+                        if (newDist < dist.get(v)) {
+                            dist.put(v, newDist);
+                            pred.put(v, u);
+                            queue.add(new Edge<>(graph, u, v, newDist));
+                        }
+                    }
                 }
             }
+        }
+        return dist;
+    }
 
+    public Map<T, Double> bellmanFord(T start) {
+        check();
+
+        Map<T, Double> dist = new HashMap<>();
+        Map<T, T> pred = new HashMap<>();
+
+        for (T vertex : graph.getAllVertices()) {
+            dist.put(vertex, Double.POSITIVE_INFINITY);
+        }
+        dist.put(start, 0.0);
+
+        int V = graph.getAllVertices().size();
+
+        for (int i = 0; i < V; i++) {
             for (Edge<T> edge : graph.getEdges()) {
-                if (dist.get(edge.destination()) > dist.get(edge.source()) + edge.weight().get()) {
-                    throw new IllegalArgumentException("Graph contains a negative-weight cycle");
-                }
+                relax(dist, pred, edge);
             }
-            return dist;
+        }
 
-        } else throw new IllegalArgumentException("Graph must be weighted");
+        for (Edge<T> edge : graph.getEdges()) {
+            if (dist.get(edge.destination()) > dist.get(edge.source()) + edge.weight().get()) {
+                throw new IllegalArgumentException("Graph contains a negative-weight cycle");
+            }
+        }
+        return dist;
     }
 
 
@@ -111,10 +150,15 @@ public class GraphAlgoUtility<T extends Comparable<T>> {
         double newDist = dist.get(edge.source()) + edge.weight().get();
         if (newDist < dist.get(edge.destination()) ||
                 (newDist == dist.get(edge.destination()) &&
-                        edge.source().compareTo(edge.destination()) < 0))
-        {
+                        edge.source().compareTo(edge.destination()) < 0)) {
             dist.put(edge.destination(), newDist);
             pred.put(edge.destination(), edge.source());
+        }
+    }
+
+    private void check() {
+        if (!(graph instanceof WeightedGraph)) {
+            throw new IllegalArgumentException("Graph must be weighted");
         }
     }
 }
