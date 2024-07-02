@@ -19,6 +19,18 @@ public class UndirectedGraph<T> extends BaseGraph<T> {
             );
         }
         edges.add(new Edge<>(this, src, dest));
+        edges.add(new Edge<>(this, dest, src));
+    }
+
+    @Override
+    public Edge<T> getEdge(T src, T dest) {
+        for (Edge<T> edge : edges) {
+            if ((edge.source().equals(src) && edge.destination().equals(dest)) ||
+                    (edge.source().equals(dest) && edge.destination().equals(src))) {
+                return edge;
+            }
+        }
+        return null;
     }
 
     @Override

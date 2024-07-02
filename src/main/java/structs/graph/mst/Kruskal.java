@@ -1,20 +1,16 @@
-package structs.graph;
+package structs.graph.mst;
 
-import structs.Structure;
+import structs.graph.Edge;
+import structs.graph.WeightedGraph;
+import structs.graph.WeightedUndirectedGraph;
 import java.util.*;
 
 
-public class MST<T> implements Structure<T> {
+class Kruskal<T> extends MSTBuilder<T> {
 
-    private final WeightedGraph<T> graph;
-
-    private final WeightedGraph<T> mst;
-
-
-    public MST(WeightedGraph<T> graph) {
-        this.graph = graph;
-        this.mst = kruskal();
-        // create();
+    protected Kruskal(WeightedGraph<T> graph) {
+        super(graph);
+        super.mst = kruskal();
     }
 
     private WeightedGraph<T> kruskal() {
@@ -36,15 +32,11 @@ public class MST<T> implements Structure<T> {
                 mst.addEdge(src, dest, edge.weight().get());
             }
         }
-
         return mst;
     }
 
-    public List<Edge<T>> getEdges() {
-        return List.copyOf(mst.getEdges());
-    }
-
-    public boolean isValid() {
+    @Override
+    protected boolean isValid() {
         UnionFind unionFind = new UnionFind();
         for (T vertex : graph.getAllVertices()) {
             unionFind.makeSet(vertex);
@@ -69,26 +61,6 @@ public class MST<T> implements Structure<T> {
             }
         }
         return true;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return mst.isEmpty();
-    }
-
-    @Override
-    public int size() {
-        return mst.size();
-    }
-
-    @Override
-    public void clear() {
-        mst.clear();
-    }
-
-    @Override
-    public String toString() {
-        return mst.toString();
     }
 
     protected class UnionFind {

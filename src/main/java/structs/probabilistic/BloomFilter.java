@@ -15,12 +15,16 @@ public class BloomFilter<T> implements Structure<T> {
 
     private final Function<T, Integer>[] hashFunctions;
 
+    // keeps track of the number of times each bit position has been set
+    private final int[] counters;
+
 
     public BloomFilter(int bitSetSize, int hashCount, Function<T, Integer>[] hashFunctions) {
         this.bitSetSize = bitSetSize;
         this.hashCount = hashCount;
         this.bitSet = new BitSet(bitSetSize);
         this.hashFunctions = hashFunctions;
+        this.counters = new int[bitSetSize];
     }
 
     // Default Constructor for Strings
@@ -34,6 +38,7 @@ public class BloomFilter<T> implements Structure<T> {
                 ( Function<String, Integer> ) value -> value.hashCode() * 31,
                 ( Function<String, Integer> ) value -> value.hashCode() * 17
         };
+        this.counters = new int[bitSetSize];
     }
 
     private int[] getHashes(T value) {
@@ -50,7 +55,20 @@ public class BloomFilter<T> implements Structure<T> {
         int[] hashes = getHashes(x);
         for (int hash : hashes) {
             bitSet.set(hash);
+            counters[hash]++;
         }
+    }
+
+    public boolean remove(T x) {
+        if (!contains(x)) return false;
+        int[] hashes = getHashes(x);
+        for (int hash : hashes) {
+            counters[hash]--;
+            if (counters[hash] == 0) {
+                bitSet.clear(hash);
+            }
+        }
+        return true;
     }
 
     public boolean contains(T x) {
@@ -79,6 +97,9 @@ public class BloomFilter<T> implements Structure<T> {
     @Override
     public void clear() {
         bitSet.clear();
+        for (int i = 0; i < bitSetSize; i++) {
+            counters[i] = 0;
+        }
     }
 
     @Override

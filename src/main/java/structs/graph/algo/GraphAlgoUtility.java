@@ -148,13 +148,18 @@ public class GraphAlgoUtility<T extends Comparable<T>> {
 
     private void relax(Map<T, Double> dist, Map<T, T> pred, Edge<T> edge) {
         double newDist = dist.get(edge.source()) + edge.weight().get();
-        if (newDist < dist.get(edge.destination()) ||
-                (newDist == dist.get(edge.destination()) &&
-                        edge.source().compareTo(edge.destination()) < 0)) {
+        if (newDist < dist.get(edge.destination())) {
+            dist.put(edge.destination(), newDist);
+            pred.put(edge.destination(), edge.source());
+
+        } else if (newDist == dist.get(edge.destination()) &&
+                edge.source().compareTo(edge.destination()) < 0)
+        {
             dist.put(edge.destination(), newDist);
             pred.put(edge.destination(), edge.source());
         }
     }
+
 
     private void check() {
         if (!(graph instanceof WeightedGraph)) {

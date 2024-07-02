@@ -1,24 +1,25 @@
 package structs.graph;
 
 import structs.Graph;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 abstract class BaseGraph<T> implements Graph<T> {
 
     protected final Set<T> vertices;
 
-    protected final List<Edge<T>> edges;
+    protected final Set<Edge<T>> edges;
 
 
     protected BaseGraph() {
         this.vertices = new HashSet<>();
-        this.edges = new ArrayList<>();
+        this.edges = new HashSet<>();
     }
 
-    protected BaseGraph(Set<T> vertices, List<Edge<T>> edges) {
+    protected BaseGraph(Set<T> vertices, Set<Edge<T>> edges) {
         this.vertices = Set.copyOf(vertices);
-        this.edges = List.copyOf(edges);
+        this.edges = Set.copyOf(edges);
     }
 
     @Override
@@ -38,8 +39,8 @@ abstract class BaseGraph<T> implements Graph<T> {
     }
 
     @Override
-    public List<Edge<T>> getEdges() {
-        return List.copyOf(edges);
+    public Set<Edge<T>> getEdges() {
+        return Set.copyOf(edges);
     }
 
     @Override

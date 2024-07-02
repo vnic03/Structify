@@ -13,6 +13,8 @@ public interface Graph<T> extends Structure<T> {
 
     void addEdge(T src, T dest);
 
+    Edge<T> getEdge(T src, T dest);
+
     boolean removeEdge(T src, T dest);
 
     List<T> getNeighbors(T vertex);
@@ -23,5 +25,5 @@ public interface Graph<T> extends Structure<T> {
 
     Set<T> getAllVertices();
 
-    List<Edge<T>> getEdges();
+    Set<Edge<T>> getEdges();
 }

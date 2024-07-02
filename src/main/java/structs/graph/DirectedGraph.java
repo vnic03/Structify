@@ -22,6 +22,16 @@ public class DirectedGraph<T> extends BaseGraph<T> {
     }
 
     @Override
+    public Edge<T> getEdge(T src, T dest) {
+        for (Edge<T> edge : edges) {
+            if (edge.source().equals(src) && edge.destination().equals(dest)) {
+                return edge;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public List<T> getNeighbors(T vertex) {
         final List<T> neighbors = new ArrayList<>();
         for (Edge<T> edge : edges) {
