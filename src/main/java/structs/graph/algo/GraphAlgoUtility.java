@@ -86,7 +86,7 @@ public class GraphAlgoUtility<T extends Comparable<T>> {
                 Comparator.comparingDouble(e -> e.weight().orElseThrow())
         );
 
-        for (T vertex : graph.getAllVertices()) {
+        for (T vertex : graph.getVertices()) {
             dist.put(vertex, Double.POSITIVE_INFINITY);
         }
 
@@ -124,12 +124,12 @@ public class GraphAlgoUtility<T extends Comparable<T>> {
         Map<T, Double> dist = new HashMap<>();
         Map<T, T> pred = new HashMap<>();
 
-        for (T vertex : graph.getAllVertices()) {
+        for (T vertex : graph.getVertices()) {
             dist.put(vertex, Double.POSITIVE_INFINITY);
         }
         dist.put(start, 0.0);
 
-        int V = graph.getAllVertices().size();
+        int V = graph.getVertices().size();
 
         for (int i = 0; i < V; i++) {
             for (Edge<T> edge : graph.getEdges()) {

@@ -1,6 +1,7 @@
 package structs.graph.mst;
 
 import structs.Queue;
+import structs.graph.Edge;
 import structs.graph.WeightedGraph;
 import structs.graph.WeightedUndirectedGraph;
 import structs.linked.LinkedQueue;
@@ -19,18 +20,18 @@ class Prim<T> extends MSTBuilder<T> {
     private final Set<T> remainingNodes;
 
 
-    protected Prim(WeightedGraph<T> graph) {
+    protected Prim(WeightedGraph<T> graph, T start) {
         super(graph);
-        super.mst = prim();
         this.keys = new HashMap<>();
         this.predecessors = new HashMap<>();
         this.remainingNodes = new HashSet<>();
+        super.mst = prim(start);
     }
 
-    private WeightedGraph<T> prim() {
-        Set<T> V = graph.getAllVertices();
+    private WeightedGraph<T> prim(T start) {
+        Set<T> V = graph.getVertices();
 
-        T start = V.iterator().next();
+        if (start == null) start = V.iterator().next();
 
         for (T v : V) {
             keys.put(v, Double.POSITIVE_INFINITY);
@@ -40,7 +41,7 @@ class Prim<T> extends MSTBuilder<T> {
         remainingNodes.addAll(V);
 
         while (!remainingNodes.isEmpty()) {
-            T u = extractMin();
+            T u = start instanceof String ? extractMinString() : extractMin();
             for (T v : graph.getNeighbors(u)) {
                 if (remainingNodes.contains(v)) {
                     double weight = graph.getEdge(u, v).weight().get();
@@ -53,6 +54,10 @@ class Prim<T> extends MSTBuilder<T> {
         }
 
         WeightedGraph<T> mst = new WeightedUndirectedGraph<>();
+
+        for (T v : graph.getVertices()) {
+            mst.add(v);
+        }
 
         for (T v : predecessors.keySet()) {
             T u = predecessors.get(v);
@@ -75,12 +80,26 @@ class Prim<T> extends MSTBuilder<T> {
         return min;
     }
 
+    private T extractMinString() {
+        T min = null;
+        for (T node : remainingNodes) {
+            if (min == null || keys.get(node) < keys.get(min) ||
+                    (keys.get(node).equals(keys.get(min)) && node.toString().compareTo(min.toString()) < 0))
+            {
+                min = node;
+            }
+        }
+        remainingNodes.remove(min);
+        return min;
+    }
+
+
     @Override
     protected boolean isValid() {
         Set<T> visited = new HashSet<>();
         Queue<T> queue = new LinkedQueue<>();
 
-        T start = mst.getAllVertices().iterator().next();
+        T start = mst.getVertices().iterator().next();
         queue.enqueue(start);
 
         while (!queue.isEmpty()) {
@@ -98,7 +117,7 @@ class Prim<T> extends MSTBuilder<T> {
             }
         }
 
-        if (visited.size() != graph.getAllVertices().size()) {
+        if (visited.size() != graph.getVertices().size()) {
             System.out.println("Not all vertices are connected");
             return false;
         }

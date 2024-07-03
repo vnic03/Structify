@@ -1,9 +1,6 @@
 package structs.array;
 
 import structs.List;
-import structs.Structure;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 
 public class ArrayList<T> extends ArrayBase<T> implements List<T> {
@@ -93,24 +90,6 @@ public class ArrayList<T> extends ArrayBase<T> implements List<T> {
             }
         }
         return -1;
-    }
-
-    @Override
-    public Structure<T> filter(Predicate<T> predicate) {
-        List<T> result = new ArrayList<>(this.capacity);
-        for (T x : this) {
-            if (predicate.test(x)) result.add(x);
-        }
-        return result;
-    }
-
-    @Override
-    public <M> Structure<M> map(Function<T, M> mapper) {
-        List<M> result = new ArrayList<>(this.capacity);
-        for (T x : this) {
-            result.add(mapper.apply(x));
-        }
-        return result;
     }
 
     private void e(int index) {

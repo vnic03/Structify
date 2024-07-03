@@ -19,7 +19,6 @@ public class UndirectedGraph<T> extends BaseGraph<T> {
             );
         }
         edges.add(new Edge<>(this, src, dest));
-        edges.add(new Edge<>(this, dest, src));
     }
 
     @Override

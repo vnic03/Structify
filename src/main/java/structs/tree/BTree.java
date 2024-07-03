@@ -299,6 +299,11 @@ public class BTree<T extends Comparable<T>> implements Tree<T> {
     }
 
     @Override
+    public void add(T element) {
+        this.insert(element);
+    }
+
+    @Override
     public boolean remove(T key) {
         if (root == null) return false;
         root.remove(key);

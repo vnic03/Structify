@@ -25,6 +25,11 @@ public class LinkedQueue<T> extends LinkedBase<T> implements Queue<T> {
     }
 
     @Override
+    public void add(T element) {
+        this.enqueue(element);
+    }
+
+    @Override
     public T dequeue() {
         if (isEmpty()) return null;
         T data = head.data;

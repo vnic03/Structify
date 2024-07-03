@@ -2,17 +2,19 @@ package structs.array;
 
 import structs.HashTable;
 import structs.List;
-
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Function;
 
 
 public class ArrayHashTable<K, V> extends ArrayBase<Entry<K, V>> implements HashTable<K, V> {
 
 
     private final ArrayList<Entry<K, V>>[] table;
+
+    private Function<K, Integer> hashFunction;
 
 
     @SuppressWarnings("unchecked")
@@ -22,10 +24,20 @@ public class ArrayHashTable<K, V> extends ArrayBase<Entry<K, V>> implements Hash
         for (int i = 0; i < HashTable.DEFAULT_CAPACITY; i++) {
             table[i] = new ArrayList<>();
         }
+        this.hashFunction = this::defaultHash;
+    }
+
+    public ArrayHashTable(Function<K, Integer> hashFunction) {
+        this();
+        this.hashFunction = hashFunction;
+    }
+
+    private int defaultHash(K key) {
+        return (key.hashCode() & 0x7fffffff) % table.length;
     }
 
     private int hash(K key) {
-        return (key.hashCode() & 0x7fffffff) % table.length;
+        return hashFunction.apply(key);
     }
 
     @Override
@@ -40,6 +52,11 @@ public class ArrayHashTable<K, V> extends ArrayBase<Entry<K, V>> implements Hash
         }
         bucket.add(new SimpleEntry<>(key, value));
         size++;
+    }
+
+    @Override
+    public void add(Entry<K, V> element) {
+        this.put(element.getKey(), element.getValue());
     }
 
     @Override

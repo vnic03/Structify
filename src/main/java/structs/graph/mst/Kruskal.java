@@ -17,13 +17,15 @@ class Kruskal<T> extends MSTBuilder<T> {
         WeightedUndirectedGraph<T> mst = new WeightedUndirectedGraph<>();
         UnionFind unionFind = new UnionFind();
 
-        for (T vertex : graph.getAllVertices()) {
+        for (T vertex : graph.getVertices()) {
             mst.add(vertex);
             unionFind.makeSet(vertex);
         }
 
         List<Edge<T>> edges = new ArrayList<>(graph.getEdges());
-        edges.sort(Comparator.comparingDouble(e -> e.weight().get()));
+        edges.sort(Comparator.comparingDouble((Edge<T> e) -> e.weight().get())
+                .thenComparing(e -> e.source().toString())
+                .thenComparing(e -> e.destination().toString()));
 
         for (Edge<T> edge : edges) {
             T src = edge.source();
@@ -38,7 +40,7 @@ class Kruskal<T> extends MSTBuilder<T> {
     @Override
     protected boolean isValid() {
         UnionFind unionFind = new UnionFind();
-        for (T vertex : graph.getAllVertices()) {
+        for (T vertex : graph.getVertices()) {
             unionFind.makeSet(vertex);
         }
 
@@ -52,7 +54,7 @@ class Kruskal<T> extends MSTBuilder<T> {
         }
 
         T root = null;
-        for (T vertex : graph.getAllVertices()) {
+        for (T vertex : graph.getVertices()) {
             if (root == null) {
                 root = unionFind.find(vertex);
             } else if (!root.equals(unionFind.find(vertex))) {

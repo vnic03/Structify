@@ -2,11 +2,16 @@ package structs;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.Spliterators;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 
 public interface Structure<T> extends Iterable<T>, Cloneable, Serializable {
+
+    void add(T element);
 
     boolean isEmpty();
 
@@ -14,15 +19,20 @@ public interface Structure<T> extends Iterable<T>, Cloneable, Serializable {
 
     void clear();
 
-    default Structure<T> filter(Predicate<T> predicate) {
-        throw new UnsupportedOperationException(
-                "filter method not supported for " + this.getClass().getName()
-        );
+    default Stream<T> stream() {
+        return StreamSupport.stream(
+                Spliterators.spliteratorUnknownSize(iterator(), 0),
+                false);
     }
 
-    default <M> Structure<M> map(Function<T, M> mapper) {
-        throw new UnsupportedOperationException(
-                "map method not supported for " + this.getClass().getName()
+    static <T, S extends Structure<T>> Collector<T, ?, S> collector(Supplier<S> supplier) {
+        return Collector.of(
+                supplier,
+                Structure::add,
+                (left, right) -> {
+                    right.forEach(left::add);
+                    return left;
+                }
         );
     }
 

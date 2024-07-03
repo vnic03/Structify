@@ -19,7 +19,7 @@ public class AdjacencyMatrix<T> implements Matrix<Integer> {
 
 
     public AdjacencyMatrix(Graph<T> graph) {
-        this.rows = graph.getAllVertices().size();
+        this.rows = graph.getVertices().size();
         this.cols = this.rows;
         this.matrix = new BitSet(rows * cols);
         this.vertexIndexMap = new HashMap<>();
@@ -29,13 +29,13 @@ public class AdjacencyMatrix<T> implements Matrix<Integer> {
 
     private void initVIndexes(Graph<T> graph) {
         int index = 0;
-        for (T vertex : graph.getAllVertices()) {
+        for (T vertex : graph.getVertices()) {
             vertexIndexMap.put(vertex, index++);
         }
     }
 
     private void createMatrix(Graph<T> graph) {
-        for (T vertex : graph.getAllVertices()) {
+        for (T vertex : graph.getVertices()) {
             int i = vertexIndexMap.get(vertex);
             for (T neighbor : graph.getNeighbors(vertex)) {
                 int j = vertexIndexMap.get(neighbor);

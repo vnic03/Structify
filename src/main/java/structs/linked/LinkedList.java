@@ -1,9 +1,6 @@
 package structs.linked;
 
 import structs.List;
-import structs.Structure;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 
 public class LinkedList<T> extends LinkedBase<T> implements List<T> {
@@ -149,31 +146,5 @@ public class LinkedList<T> extends LinkedBase<T> implements List<T> {
     public void clear() {
         head = null;
         size = 0;
-    }
-
-    @Override
-    public Structure<T> filter(Predicate<T> predicate) {
-        List<T> result = new LinkedList<>();
-        Node<T> current = head;
-
-        while (current != null) {
-            T x = current.data;
-            if (predicate.test(x)) result.add(x);
-
-            current = current.next;
-        }
-        return result;
-    }
-
-    @Override
-    public <M> Structure<M> map(Function<T, M> mapper) {
-        List<M> result = new LinkedList<>();
-        Node<T> current = head;
-
-        while (current != null) {
-            result.add(mapper.apply(current.data));
-            current = current.next;
-        }
-        return result;
     }
 }

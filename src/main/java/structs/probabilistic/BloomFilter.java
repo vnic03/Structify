@@ -51,6 +51,7 @@ public class BloomFilter<T> implements Structure<T> {
         return hashes;
     }
 
+    @Override
     public void add(T x) {
         int[] hashes = getHashes(x);
         for (int hash : hashes) {

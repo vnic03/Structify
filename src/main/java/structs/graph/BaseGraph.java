@@ -34,7 +34,7 @@ abstract class BaseGraph<T> implements Graph<T> {
 
 
     @Override
-    public Set<T> getAllVertices() {
+    public Set<T> getVertices() {
         return Set.copyOf(vertices);
     }
 

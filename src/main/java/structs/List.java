@@ -3,8 +3,6 @@ package structs;
 
 public interface List<T> extends Structure<T> {
 
-    void add(T x);
-
     void add(int index, T x);
 
     boolean remove(T x);

@@ -29,6 +29,11 @@ public class ArrayQueue<T> extends ArrayBase<T> implements Queue<T> {
     }
 
     @Override
+    public void add(T element) {
+        this.enqueue(element);
+    }
+
+    @Override
     public T dequeue() {
         if (isEmpty()) return null;
 
@@ -55,23 +60,4 @@ public class ArrayQueue<T> extends ArrayBase<T> implements Queue<T> {
             array[i] = null;
         }
     }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        for (int i = 0; i < capacity; i++) {
-            if ((rear <= front && i >= rear && i < front) || (rear > front && (i >= rear || i < front))) {
-                sb.append("-");
-            } else {
-                sb.append(array[i] != null ? array[i] : "-");
-            }
-            if (i < capacity - 1) {
-                sb.append(", ");
-            }
-        }
-        sb.append("]");
-        return sb.toString();
-    }
-
 }

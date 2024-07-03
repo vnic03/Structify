@@ -14,6 +14,11 @@ public class LinkedStack<T> extends LinkedBase<T> implements Stack<T> {
     }
 
     @Override
+    public void add(T element) {
+        this.push(element);
+    }
+
+    @Override
     public T pop() {
         if (this.isEmpty()) return null;
         T data = head.data;

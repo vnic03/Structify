@@ -34,6 +34,11 @@ public class Trie implements Tree<String> {
     }
 
     @Override
+    public void add(String element) {
+        this.insert(element);
+    }
+
+    @Override
     public boolean remove(String word) {
         return remove(root, word, 0);
     }

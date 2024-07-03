@@ -44,6 +44,11 @@ public class PriorityQueue<T extends Comparable<T>> implements Queue<T> {
     }
 
     @Override
+    public void add(T element) {
+        this.enqueue(element);
+    }
+
+    @Override
     public T dequeue() {
         return heap.poll();
     }

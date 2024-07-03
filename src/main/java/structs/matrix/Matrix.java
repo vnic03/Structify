@@ -18,4 +18,9 @@ public interface Matrix<T> extends Structure<T> {
     Matrix<T> multiply(Matrix<T> other);
 
     Matrix<T> transpose();
+
+    @Override
+    default void add(T element) {
+        throw new UnsupportedOperationException();
+    }
 }

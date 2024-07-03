@@ -32,6 +32,11 @@ public class BinaryTree<T> implements Tree<T> {
     }
 
     @Override
+    public void add(T element) {
+        this.insert(element);
+    }
+
+    @Override
     public boolean insert(T x) {
         if (root == null) {
             root = new BinaryNode<>(x);

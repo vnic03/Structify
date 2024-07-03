@@ -56,6 +56,11 @@ abstract class BaseHeap<T extends Comparable<T>> extends ArrayBase<T> implements
     }
 
     @Override
+    public void add(T element) {
+        this.insert(element);
+    }
+
+    @Override
     public boolean remove(T x) {
         int index = -1;
         for (int i = 0; i < size; i++) {

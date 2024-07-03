@@ -17,8 +17,7 @@ public class WeightedUndirectedGraph<T> extends UndirectedGraph<T> implements We
                     String.format("Destination vertex %s does not exist in the graph!", dest)
             );
         }
-        Edge<T> edge = new Edge<>(this, src, dest, weight);
-        edges.add(edge);
+        edges.add(new Edge<>(this, src, dest, weight));
     }
 
     @Override

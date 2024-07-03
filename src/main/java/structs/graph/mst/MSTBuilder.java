@@ -2,7 +2,6 @@ package structs.graph.mst;
 
 import structs.graph.Edge;
 import structs.graph.WeightedGraph;
-import java.util.List;
 
 
 abstract class MSTBuilder<T> {
@@ -17,6 +16,10 @@ abstract class MSTBuilder<T> {
     }
 
     protected abstract boolean isValid();
+
+    protected double getTotalWeight() {
+        return mst.getEdges().stream().mapToDouble(e -> e.weight().get()).sum();
+    }
 
     @Override
     public String toString() {

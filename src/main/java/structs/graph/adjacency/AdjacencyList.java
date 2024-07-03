@@ -19,17 +19,22 @@ public class AdjacencyList<T> implements Structure<T> {
     }
 
     private void init(Graph<T> graph) {
-        for (T vertex : graph.getAllVertices()) {
+        for (T vertex : graph.getVertices()) {
             adjacency.put(vertex, new LinkedList<>());
         }
         create(graph);
     }
 
     private void create(Graph<T> graph) {
-        for (T vertex : graph.getAllVertices()) {
+        for (T vertex : graph.getVertices()) {
             List<T> neighbors = adjacency.computeIfAbsent(vertex, k -> new LinkedList<>());
             neighbors.addAll(graph.getNeighbors(vertex));
         }
+    }
+
+    @Override
+    public void add(T element) {
+        adjacency.putIfAbsent(element, new LinkedList<>());
     }
 
     public List<T> getEdges(T vertex) {

@@ -3,17 +3,18 @@ package structs.linked;
 import structs.HashTable;
 import structs.List;
 import structs.array.ArrayList;
-
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Set;
-
+import java.util.function.Function;
 
 
 public class LinkedHashTable<K, V> extends LinkedBase<Entry<K, V>> implements HashTable<K, V> {
 
     private final LinkedList<Entry<K, V>>[] table;
+
+    private Function<K, Integer> hashFunction;
 
 
     @SuppressWarnings("unchecked")
@@ -22,10 +23,20 @@ public class LinkedHashTable<K, V> extends LinkedBase<Entry<K, V>> implements Ha
         for (int i = 0; i < DEFAULT_CAPACITY; i++) {
             table[i] = new LinkedList<>();
         }
+        this.hashFunction = this::defaultHash;
+    }
+
+    public LinkedHashTable(Function<K, Integer> hashFunction) {
+        this();
+        this.hashFunction = hashFunction;
+    }
+
+    private int defaultHash(K key) {
+        return (key.hashCode() & 0x7fffffff) % table.length;
     }
 
     private int hash(K key) {
-        return (key.hashCode() & 0x7fffffff) % table.length;
+        return hashFunction.apply(key);
     }
 
     @Override
@@ -39,6 +50,11 @@ public class LinkedHashTable<K, V> extends LinkedBase<Entry<K, V>> implements Ha
         }
         bucket.add(new SimpleEntry<>(key, value));
         incrementSize();
+    }
+
+    @Override
+    public void add(Entry<K, V> element) {
+        this.put(element.getKey(), element.getValue());
     }
 
     @Override

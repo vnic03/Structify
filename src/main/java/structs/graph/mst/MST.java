@@ -16,21 +16,35 @@ public class MST<T> implements Structure<T> {
 
 
     public MST(WeightedGraph<T> graph) {
-        this.graph = graph;
-        if (checkDensity() == 1) {
-            builder = new Prim<>(graph);
-            algorithm = "Prim";
-        } else {
-            builder = new Kruskal<>(graph);
-            algorithm = "Kruskal";
-        }
+        this(graph, null);
     }
 
-    private int checkDensity() {
+    public MST(WeightedGraph<T> graph, T start) {
+        this(graph, checkDensity(graph) == 1, start);
+    }
+
+    public MST(WeightedGraph<T> graph, boolean prim, T start) {
+        this.graph = graph;
+        this.builder = prim ? new Prim<>(graph, start) : new Kruskal<>(graph);
+        this.algorithm = prim ? "Prim" : "Kruskal";
+    }
+
+    public MST(WeightedGraph<T> graph, boolean prim) {
+        this.graph = graph;
+        this.builder = prim ? new Prim<>(graph, null) : new Kruskal<>(graph);
+        this.algorithm = prim ? "Prim" : "Kruskal";
+    }
+
+    private static <T> int checkDensity(WeightedGraph<T> graph) {
         // 1 == DENSE and 0 == SPARSE
         int V = graph.size();
         int E = graph.getEdges().size();
         return E > V * Math.log(V) ? 1 : 0;
+    }
+
+    @Override
+    public void add(T element) {
+        builder.mst.add(element);
     }
 
     public Set<Edge<T>> getEdges() {
@@ -43,6 +57,10 @@ public class MST<T> implements Structure<T> {
 
     public String getAlgorithm() {
         return algorithm;
+    }
+
+    public double getTotalWeight() {
+        return builder.getTotalWeight();
     }
 
     @Override

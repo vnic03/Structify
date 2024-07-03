@@ -27,6 +27,11 @@ public class ArrayStack<T> extends ArrayBase<T> implements Stack<T> {
     }
 
     @Override
+    public void add(T element) {
+        this.push(element);
+    }
+
+    @Override
     public T pop() {
         if (top == -1) return null;
 

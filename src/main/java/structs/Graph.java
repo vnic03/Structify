@@ -7,8 +7,6 @@ import java.util.Set;
 
 public interface Graph<T> extends Structure<T> {
 
-    void add(T vertex);
-
     boolean remove(T vertex);
 
     void addEdge(T src, T dest);
@@ -23,7 +21,7 @@ public interface Graph<T> extends Structure<T> {
 
     boolean containsEdge(T src, T dest);
 
-    Set<T> getAllVertices();
+    Set<T> getVertices();
 
     Set<Edge<T>> getEdges();
 }
