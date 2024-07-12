@@ -17,6 +17,9 @@ function Home() {
                     <Link to="/queue">
                         <StructureCard name="Queue" image="/assets/queue.jpeg"/>
                     </Link>
+                    <Link to="/bst">
+                        <StructureCard name="Binary-Search-Tree" image="/assets/bst.png"/>
+                    </Link>
                 </div>
             </main>
         </div>
@@ -32,5 +35,6 @@ function StructureCard({name, image}) {
         </div>
     );
 }
+
 
 export default Home;

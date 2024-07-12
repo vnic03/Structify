@@ -5,6 +5,7 @@ import './queue.css';
 
 const url = 'http://localhost:8080/structures/queue';
 
+
 const Queue = ({ endpoint }) => {
     const [queue, setQueue] = useState({ array: [] });
     const [value, setValue] = useState("");
@@ -51,7 +52,7 @@ const Queue = ({ endpoint }) => {
                 onChange={(e) => setValue(e.target.value)}
                 placeholder="Enter a value"
             />
-            <button onClick={enqueue}>enqueue</button>
+            <button onClick={enqueue} disabled={!value}>enqueue</button>
             <button onClick={dequeue}>dequeue</button>
             <button onClick={clear}>clear</button>
         </div>

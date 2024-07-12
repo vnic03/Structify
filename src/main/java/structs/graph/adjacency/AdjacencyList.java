@@ -2,6 +2,8 @@ package structs.graph.adjacency;
 
 import structs.Graph;
 import structs.Structure;
+import structs.graph.Edge;
+import structs.graph.UndirectedGraph;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,22 +12,26 @@ import java.util.Map;
 
 public class AdjacencyList<T> implements Structure<T> {
 
-    private final Map<T, List<T>> adjacency;
+    // Should probably be an Array of LinkedLists
+    private final Map<T, LinkedList<T>> adjacency;
+
+    private final Graph<T> graph;
 
 
     public AdjacencyList(Graph<T> graph) {
+        this.graph = graph;
         this.adjacency = new HashMap<>();
-        init(graph);
+        init();
     }
 
-    private void init(Graph<T> graph) {
+    private void init() {
         for (T vertex : graph.getVertices()) {
             adjacency.put(vertex, new LinkedList<>());
         }
-        create(graph);
+        create();
     }
 
-    private void create(Graph<T> graph) {
+    private void create() {
         for (T vertex : graph.getVertices()) {
             List<T> neighbors = adjacency.computeIfAbsent(vertex, k -> new LinkedList<>());
             neighbors.addAll(graph.getNeighbors(vertex));
@@ -41,14 +47,30 @@ public class AdjacencyList<T> implements Structure<T> {
         return adjacency.getOrDefault(vertex, new LinkedList<>());
     }
 
+    public boolean hasEdge(Edge<T> edge) {
+        T src = edge.source();
+        T dest = edge.destination();
+        if (adjacency.containsKey(src) && adjacency.get(src).contains(dest)) {
+            return true;
+        }
+        if (graph instanceof UndirectedGraph) {
+            return adjacency.containsKey(dest) && adjacency.get(dest).contains(src);
+        }
+        return false;
+    }
+
+    public boolean hasEdge(T src, T des) {
+        return hasEdge(new Edge<>(graph, src, des));
+    }
+
     protected void addEdge(T vertex, T neighbor) {
         adjacency.computeIfAbsent(vertex, k -> new LinkedList<>()).add(neighbor);
     }
 
-    public AdjacencyMatrix<T> listToMatrix(Graph<T> graph) {
+    public AdjacencyMatrix<T> listToMatrix() {
         AdjacencyMatrix<T> matrix = new AdjacencyMatrix<>(graph);
 
-        for (Map.Entry<T, List<T>> entry : adjacency.entrySet()) {
+        for (Map.Entry<T, LinkedList<T>> entry : adjacency.entrySet()) {
             T vertex = entry.getKey();
             int i = matrix.getVertexIndex(vertex);
 
@@ -77,16 +99,14 @@ public class AdjacencyList<T> implements Structure<T> {
 
     @Override
     public String toString() {
-        if (isEmpty()) return "[]";
+        if (adjacency.isEmpty()) return "[]";
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<T, List<T>> entry : adjacency.entrySet()) {
-            sb.append(entry.getKey().toString()).append(": [");
+        for (Map.Entry<T, LinkedList<T>> entry : adjacency.entrySet()) {
+            sb.append(entry.getKey().toString()).append("*->[");
             List<T> neighbors = entry.getValue();
             for (int i = 0; i < neighbors.size(); i++) {
                 sb.append(neighbors.get(i).toString());
-                if (i < neighbors.size() - 1) {
-                    sb.append(", ");
-                }
+                if (i < neighbors.size() - 1) sb.append(", ");
             }
             sb.append("]\n");
         }

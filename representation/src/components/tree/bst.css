@@ -1,0 +1,74 @@
+#tree-container {
+    width: 100% !important;
+    height: 1000px !important;
+    position: relative !important;
+}
+
+.node circle {
+    fill: var(--secondary-color) !important;
+    stroke: var(--secondary-dark) !important;
+    stroke-width: 2px !important;
+    transition: fill 0.3s, stroke-width 0.3s !important;
+}
+
+.node circle:hover {
+    fill: var(--secondary-dark) !important;
+    stroke-width: 3px !important;
+}
+
+.root circle {
+    fill: var(--highlight-color) !important;
+    stroke: var(--highlight-dark) !important;
+    stroke-width: 3px !important;
+    transition: fill 0.3s, stroke-width 0.3s !important;
+}
+
+.root circle:hover {
+    fill: var(--highlight-dark) !important;
+    stroke-width: 4px !important;
+}
+
+.node text {
+    font: 16px sans-serif !important;
+    fill: var(--text-color) !important;
+    font-weight: bold !important;
+}
+
+.link {
+    fill: none !important;
+    stroke: var(--secondary-color) !important;
+    stroke-width: 3px !important;
+    transition: stroke 0.3s !important;
+}
+
+.node text:hover {
+    font-size: 14px !important;
+    fill: #000 !important;
+    font-weight: bold !important;
+}
+
+#controls {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    background-color: var(--background-color);
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+#controls input, #controls button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+#controls input:focus, #controls button:hover {
+    border-color: var(--secondary-dark);
+    box-shadow: 0 0 5px rgba(70, 130, 180, 0.5);
+}

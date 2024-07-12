@@ -54,11 +54,13 @@ abstract class StructureServlet<T> extends HttpServlet {
         BufferedReader reader = req.getReader();
         StringBuilder body = new StringBuilder();
         String line;
+
         while ((line = reader.readLine()) != null) {
             body.append(line);
         }
         JsonObject json = gson.fromJson(body.toString(), JsonObject.class);
-        T value = gson.fromJson(json.get("value"), type);
+
+        T value = json != null ? gson.fromJson(json.get("value"), type) : null;
 
         handleDelete(value, action, resp);
     }

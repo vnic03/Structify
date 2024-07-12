@@ -152,4 +152,30 @@ public class BinaryTree<T> implements Tree<T> {
         root = null;
         size = 0;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        toString(root, sb, "", "");
+        return sb.toString();
+    }
+
+    private void toString(BinaryNode<T> node, StringBuilder sb, String prefix, String childrenPrefix) {
+        if (node != null) {
+            sb.append(prefix);
+            sb.append(node.data);
+            sb.append("\n");
+            if (node.left != null || node.right != null) {
+                if (node.right != null) {
+                    toString(node.right, sb, childrenPrefix + "├── ", childrenPrefix + "│   ");
+
+                } else sb.append(childrenPrefix).append("├── null\n");
+
+                if (node.left != null) {
+                    toString(node.left, sb, childrenPrefix + "└── ", childrenPrefix + "    ");
+
+                } else sb.append(childrenPrefix).append("└── null\n");
+            }
+        }
+    }
 }

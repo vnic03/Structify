@@ -5,14 +5,15 @@ import './stack.css';
 
 const url = 'http://localhost:8080/structures/stack';
 
+
 const Stack = ({ endpoint }) => {
     const [stack, setStack] = useState({ array: [] });
     const [value, setValue] = useState("");
 
     const fetchStack = () => {
         axios.get(`${url}/${endpoint}`).then(res => {
-                setStack(res.data.structure);
-            })
+            setStack(res.data.structure);
+        })
             .catch(err => console.log("Error fetching stack data", err));
     };
 
@@ -51,7 +52,7 @@ const Stack = ({ endpoint }) => {
                 onChange={(e) => setValue(e.target.value)}
                 placeholder="Enter a value"
             />
-            <button onClick={push}>push</button>
+            <button onClick={push} disabled={!value}>push</button>
             <button onClick={pop}>pop</button>
             <button onClick={clear}>clear</button>
         </div>
