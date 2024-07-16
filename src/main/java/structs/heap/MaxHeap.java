@@ -28,7 +28,7 @@ public class MaxHeap<T extends Comparable<T>> extends BaseHeap<T> {
                 largerChildIndex = getRightChildIndex(index);
             }
 
-            if (array[index].compareTo(array[largerChildIndex]) >= 0) break;
+            if (array[index].compareTo(array[largerChildIndex]) > 0) break;
             else {
                 swap(index, largerChildIndex);
             }

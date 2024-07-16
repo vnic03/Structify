@@ -13,11 +13,11 @@ import structs.Structure;
 
 abstract class StructureServlet<T> extends HttpServlet {
 
-    private final Gson gson = new Gson();
+    protected final Gson gson = new Gson();
 
     protected final Structure<T> structure;
 
-    private final Class<T> type;
+    protected final Class<T> type;
 
 
     protected StructureServlet(Structure<T> structure, Class<T> type) {

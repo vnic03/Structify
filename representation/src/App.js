@@ -13,7 +13,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/stack" element={<Stack endpoint="number" />} />
                 <Route path="/queue" element={<Queue endpoint="number" />} />
-                <Route path="/bst" element={<BST endpoint="number" />}/>
+                <Route path="/bst" element={<BST endpoint="number" />} />
             </Routes>
         </Router>
     );

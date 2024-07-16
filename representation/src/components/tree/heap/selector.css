@@ -1,0 +1,26 @@
+.HeapSelector-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--background-color);
+    text-align: center;
+}
+
+.HeapSelector-container button {
+    padding: 120px 180px;
+    margin: 50px;
+    font-size: 4em;
+    color: #fff;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.HeapSelector-container button:hover {
+    background-color: var(--primary-dark);
+    transform: scale(1.05);
+}

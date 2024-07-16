@@ -24,7 +24,13 @@ public class WeightedUndirectedGraph<T> extends UndirectedGraph<T> implements We
     public double getWeight(T src, T dest) {
         return edges.stream()
                 .filter(e -> e.source().equals(src) && e.destination().equals(dest))
-                .findFirst().flatMap(Edge::weight)
+                .findFirst()
+                .map(edge -> {
+                    if (edge.weight() == null) {
+                        throw new NoSuchElementException("Weight for the edge from " + src + " to " + dest + " not found");
+                    }
+                    return edge.weight();
+                })
                 .orElseThrow(() -> new NoSuchElementException("src: " + src + " or dest: " + dest + " not found"));
     }
 
@@ -46,7 +52,7 @@ public class WeightedUndirectedGraph<T> extends UndirectedGraph<T> implements We
                     .append(" <---> ")
                     .append(edge.destination().toString())
                     .append(" [")
-                    .append(edge.weight().get())
+                    .append(edge.weight())
                     .append("]\n");
         }
         return sb.toString();

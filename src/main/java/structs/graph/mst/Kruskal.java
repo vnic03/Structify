@@ -23,7 +23,7 @@ class Kruskal<T> extends MSTBuilder<T> {
         }
 
         List<Edge<T>> edges = new ArrayList<>(graph.getEdges());
-        edges.sort(Comparator.comparingDouble((Edge<T> e) -> e.weight().get())
+        edges.sort(Comparator.comparingDouble((Edge<T> e) -> e.weight())
                 .thenComparing(e -> e.source().toString())
                 .thenComparing(e -> e.destination().toString()));
 
@@ -31,7 +31,7 @@ class Kruskal<T> extends MSTBuilder<T> {
             T src = edge.source();
             T dest = edge.destination();
             if (unionFind.union(src, dest)) {
-                mst.addEdge(src, dest, edge.weight().get());
+                mst.addEdge(src, dest, edge.weight());
             }
         }
         return mst;

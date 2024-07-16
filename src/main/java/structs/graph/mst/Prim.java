@@ -1,7 +1,6 @@
 package structs.graph.mst;
 
 import structs.Queue;
-import structs.graph.Edge;
 import structs.graph.WeightedGraph;
 import structs.graph.WeightedUndirectedGraph;
 import structs.linked.LinkedQueue;
@@ -44,7 +43,7 @@ class Prim<T> extends MSTBuilder<T> {
             T u = start instanceof String ? extractMinString() : extractMin();
             for (T v : graph.getNeighbors(u)) {
                 if (remainingNodes.contains(v)) {
-                    double weight = graph.getEdge(u, v).weight().get();
+                    double weight = graph.getEdge(u, v).weight();
                     if (weight < keys.get(v)) {
                         keys.put(v, weight);
                         predecessors.put(v, u);

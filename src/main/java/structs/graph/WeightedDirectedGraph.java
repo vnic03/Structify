@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 
 public class WeightedDirectedGraph<T> extends DirectedGraph<T> implements WeightedGraph<T> {
 
+
     @Override
     public void addEdge(T src, T dest, double weight) {
         if (!vertices.contains(src)) {
@@ -25,7 +26,13 @@ public class WeightedDirectedGraph<T> extends DirectedGraph<T> implements Weight
     public double getWeight(T src, T dest) {
         return edges.stream()
                 .filter(edge -> edge.source().equals(src) && edge.destination().equals(dest))
-                .findFirst().flatMap(Edge::weight)
+                .findFirst()
+                .map(edge -> {
+                    if (edge.weight() == null) {
+                        throw new NoSuchElementException("Weight for the edge from " + src + " to " + dest + " not found");
+                    }
+                    return edge.weight();
+                })
                 .orElseThrow(() -> new NoSuchElementException("src: " + src + " or dest: " + dest + " not found"));
     }
 
@@ -47,7 +54,7 @@ public class WeightedDirectedGraph<T> extends DirectedGraph<T> implements Weight
                     .append(" -> ")
                     .append(edge.destination().toString())
                     .append(" [")
-                    .append(edge.weight().get())
+                    .append(edge.weight())
                     .append("]\n");
         }
         return sb.toString();

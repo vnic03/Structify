@@ -32,7 +32,6 @@ abstract class BaseGraph<T> implements Graph<T> {
         return vertices.contains(vertex);
     }
 
-
     @Override
     public Set<T> getVertices() {
         return Set.copyOf(vertices);
@@ -48,11 +47,6 @@ abstract class BaseGraph<T> implements Graph<T> {
         if (!vertices.contains(vertex)) return false;
         edges.removeIf(edge -> edge.source().equals(vertex) || edge.destination().equals(vertex));
         return vertices.remove(vertex);
-    }
-
-    @Override
-    public boolean removeEdge(T src, T dest) {
-        return edges.removeIf(edge -> edge.source().equals(src) && edge.destination().equals(dest));
     }
 
     @Override

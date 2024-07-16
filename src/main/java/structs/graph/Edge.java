@@ -2,20 +2,15 @@ package structs.graph;
 
 import structs.Graph;
 import java.util.Objects;
-import java.util.Optional;
 
 
 // param <V> Type of the Vertex
-public record Edge<V>(Graph<V> graph, V source, V destination, Optional<Double> weight)
+public record Edge<V>(Graph<V> graph, V source, V destination, Double weight)
         implements Comparable<Edge<V>>
 {
 
     public Edge(Graph<V> graph, V source, V destination) {
-        this(graph, source, destination, Optional.empty());
-    }
-
-    public Edge(Graph<V> graph, V source, V destination, double weight) {
-        this(graph, source, destination, Optional.of(weight));
+        this(graph, source, destination, null);
     }
 
     @Override
@@ -38,16 +33,17 @@ public record Edge<V>(Graph<V> graph, V source, V destination, Optional<Double> 
     @Override
     public String toString() {
         boolean directed = graph instanceof DirectedGraph;
-        return source + (directed ? "->" : "--") + destination + weight.map(w -> "[w: " + w + "]").orElse("");
+        return source + (directed ? "->" : "--") + destination +
+                (weight != null ? "[w: " + weight + "]" : "");
     }
 
     @Override
     public int compareTo(Edge<V> other) {
-        if (this.weight.isPresent() && other.weight.isPresent()) {
-            return Double.compare(this.weight.get(), other.weight.get());
+        if (this.weight != null && other.weight != null) {
+            return Double.compare(this.weight, other.weight);
         }
-        else if (this.weight.isPresent()) return 1;
-        else if (other.weight.isPresent()) return -1;
+        else if (this.weight != null) return 1;
+        else if (other.weight != null) return -1;
         else return 0;
     }
 }

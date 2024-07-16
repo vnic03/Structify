@@ -28,7 +28,7 @@ public class MinHeap<T extends Comparable<T>> extends BaseHeap<T> {
                 smallerChildIndex = getRightChildIndex(index);
             }
 
-            if (array[index].compareTo(array[smallerChildIndex]) <= 0) break;
+            if (array[index].compareTo(array[smallerChildIndex]) < 0) break;
             else {
                 swap(index, smallerChildIndex);
             }

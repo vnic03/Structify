@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import Tree from 'react-d3-tree';
-import './bst.css';
+import './tree.css';
 
 
 const url = 'http://localhost:8080/structures/bst';
@@ -31,7 +31,6 @@ const BST = ({ endpoint }) => {
     };
 
     const removeNode = () => {
-        console.log("Removing node:", value);
         axios.delete(`${url}/${endpoint}`, { data: { value: parseFloat(value) } })
             .then(() => { fetchTree(); })
             .catch(err => console.error("Error removing from tree", err));

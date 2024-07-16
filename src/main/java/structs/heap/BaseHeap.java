@@ -1,5 +1,6 @@
 package structs.heap;
 
+import annotation.NeedsFixing;
 import structs.Heap;
 import structs.array.ArrayBase;
 import java.util.Arrays;
@@ -33,6 +34,7 @@ abstract class BaseHeap<T extends Comparable<T>> extends ArrayBase<T> implements
         return array[0];
     }
 
+    @NeedsFixing
     @Override
     public T poll() {
         if (this.isEmpty()) return null;
@@ -47,7 +49,6 @@ abstract class BaseHeap<T extends Comparable<T>> extends ArrayBase<T> implements
     public boolean insert(T x) {
         if (size == array.length) {
             resize();
-            return false;
         }
         array[size] = x;
         size++;
@@ -60,6 +61,7 @@ abstract class BaseHeap<T extends Comparable<T>> extends ArrayBase<T> implements
         this.insert(element);
     }
 
+    @NeedsFixing
     @Override
     public boolean remove(T x) {
         int index = -1;
@@ -74,7 +76,9 @@ abstract class BaseHeap<T extends Comparable<T>> extends ArrayBase<T> implements
         array[index] = array[size - 1];
         size--;
 
-        if (index > 0 && array[index].compareTo(parent(index)) < 0) {
+        if (index == size) return true;
+
+        if (index > 0 && array[index].compareTo(parent(index)) > 0) {
             heapifyUp(index);
 
         } else heapifyDown(index);

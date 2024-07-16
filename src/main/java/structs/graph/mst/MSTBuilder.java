@@ -18,7 +18,7 @@ abstract class MSTBuilder<T> {
     protected abstract boolean isValid();
 
     protected double getTotalWeight() {
-        return mst.getEdges().stream().mapToDouble(e -> e.weight().get()).sum();
+        return mst.getEdges().stream().mapToDouble(Edge::weight).sum();
     }
 
     @Override

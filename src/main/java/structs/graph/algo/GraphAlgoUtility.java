@@ -83,7 +83,7 @@ public class GraphAlgoUtility<T extends Comparable<T>> {
         Map<T, T> pred = new HashMap<>();
         Set<T> settledNodes = new HashSet<>();
         PriorityQueue<Edge<T>> queue = new PriorityQueue<>(
-                Comparator.comparingDouble(e -> e.weight().orElseThrow())
+                Comparator.comparingDouble(Edge::weight)
         );
 
         for (T vertex : graph.getVertices()) {
@@ -103,7 +103,7 @@ public class GraphAlgoUtility<T extends Comparable<T>> {
                     if (edge.source().equals(u)) {
 
                         T v = edge.destination();
-                        double weight = edge.weight().get();
+                        double weight = edge.weight();
                         double newDist = dist.get(u) + weight;
 
                         if (newDist < dist.get(v)) {
@@ -138,7 +138,7 @@ public class GraphAlgoUtility<T extends Comparable<T>> {
         }
 
         for (Edge<T> edge : graph.getEdges()) {
-            if (dist.get(edge.destination()) > dist.get(edge.source()) + edge.weight().get()) {
+            if (dist.get(edge.destination()) > dist.get(edge.source()) + edge.weight()) {
                 throw new IllegalArgumentException("Graph contains a negative-weight cycle");
             }
         }
@@ -147,7 +147,7 @@ public class GraphAlgoUtility<T extends Comparable<T>> {
 
 
     private void relax(Map<T, Double> dist, Map<T, T> pred, Edge<T> edge) {
-        double newDist = dist.get(edge.source()) + edge.weight().get();
+        double newDist = dist.get(edge.source()) + edge.weight();
         if (newDist < dist.get(edge.destination())) {
             dist.put(edge.destination(), newDist);
             pred.put(edge.destination(), edge.source());

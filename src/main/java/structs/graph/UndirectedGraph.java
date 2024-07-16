@@ -6,6 +6,7 @@ import java.util.List;
 
 public class UndirectedGraph<T> extends BaseGraph<T> {
 
+
     @Override
     public void addEdge(T src, T dest) {
         if (!vertices.contains(src)) {
@@ -19,6 +20,14 @@ public class UndirectedGraph<T> extends BaseGraph<T> {
             );
         }
         edges.add(new Edge<>(this, src, dest));
+    }
+
+    @Override
+    public boolean removeEdge(T src, T dest) {
+        return edges.removeIf(
+                edge -> edge.source().equals(src) && edge.destination().equals(dest) ||
+                        edge.source().equals(dest) && edge.destination().equals(src)
+                );
     }
 
     @Override

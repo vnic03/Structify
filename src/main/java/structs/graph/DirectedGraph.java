@@ -22,6 +22,11 @@ public class DirectedGraph<T> extends BaseGraph<T> {
     }
 
     @Override
+    public boolean removeEdge(T src, T dest) {
+        return edges.removeIf(edge -> edge.source().equals(src) && edge.destination().equals(dest));
+    }
+
+    @Override
     public Edge<T> getEdge(T src, T dest) {
         for (Edge<T> edge : edges) {
             if (edge.source().equals(src) && edge.destination().equals(dest)) {
