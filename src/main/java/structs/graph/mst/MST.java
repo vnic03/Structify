@@ -1,41 +1,42 @@
 package structs.graph.mst;
 
+import structs.Graph;
 import structs.Structure;
 import structs.graph.Edge;
-import structs.graph.WeightedGraph;
 import java.util.*;
 
 
 public class MST<T> implements Structure<T> {
 
-    private final WeightedGraph<T> graph;
+    private final Graph<T> graph;
 
     private final MSTBuilder<T> builder;
 
     private final String algorithm;
 
 
-    public MST(WeightedGraph<T> graph) {
+    public MST(Graph<T> graph) {
         this(graph, null);
     }
 
-    public MST(WeightedGraph<T> graph, T start) {
+    public MST(Graph<T> graph, T start) {
         this(graph, checkDensity(graph) == 1, start);
     }
 
-    public MST(WeightedGraph<T> graph, boolean prim, T start) {
+    public MST(Graph<T> graph, boolean prim, T start) {
         this.graph = graph;
         this.builder = prim ? new Prim<>(graph, start) : new Kruskal<>(graph);
         this.algorithm = prim ? "Prim" : "Kruskal";
     }
 
-    public MST(WeightedGraph<T> graph, boolean prim) {
+    public MST(Graph<T> graph, boolean prim) {
         this.graph = graph;
         this.builder = prim ? new Prim<>(graph, null) : new Kruskal<>(graph);
         this.algorithm = prim ? "Prim" : "Kruskal";
     }
 
-    private static <T> int checkDensity(WeightedGraph<T> graph) {
+
+    private static <T> int checkDensity(Graph<T> graph) {
         // 1 == DENSE and 0 == SPARSE
         int V = graph.size();
         int E = graph.getEdges().size();

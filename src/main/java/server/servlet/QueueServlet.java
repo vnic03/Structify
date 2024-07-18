@@ -8,20 +8,23 @@ import java.io.IOException;
 
 public class QueueServlet<T> extends StructureServlet<T> {
 
+    private final Queue<T> queue;
+
     public QueueServlet(Class<T> type) {
         super(new ArrayQueue<>(), type);
+        this.queue = (Queue<T>) structure;
     }
 
     @Override
     protected void handlePost(T value, HttpServletResponse resp) throws IOException {
-        ((Queue<T>) structure).enqueue(value);
+        queue.enqueue(value);
         resp.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override
     protected void handleDelete(T value, String action, HttpServletResponse resp) throws IOException {
         if ("clear".equals(action)) structure.clear();
-        else ((Queue<T>) structure).dequeue();
+        else queue.dequeue();
         resp.setStatus(HttpServletResponse.SC_OK);
     }
 }

@@ -1,8 +1,8 @@
 package structs.graph.mst;
 
+import structs.Graph;
 import structs.Queue;
-import structs.graph.WeightedGraph;
-import structs.graph.WeightedUndirectedGraph;
+import structs.graph.UndirectedGraph;
 import structs.linked.LinkedQueue;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,7 +19,7 @@ class Prim<T> extends MSTBuilder<T> {
     private final Set<T> remainingNodes;
 
 
-    protected Prim(WeightedGraph<T> graph, T start) {
+    protected Prim(Graph<T> graph, T start) {
         super(graph);
         this.keys = new HashMap<>();
         this.predecessors = new HashMap<>();
@@ -27,7 +27,8 @@ class Prim<T> extends MSTBuilder<T> {
         super.mst = prim(start);
     }
 
-    private WeightedGraph<T> prim(T start) {
+    private Graph<T> prim(T start) {
+        checkGraph();
         Set<T> V = graph.getVertices();
 
         if (start == null) start = V.iterator().next();
@@ -52,7 +53,7 @@ class Prim<T> extends MSTBuilder<T> {
             }
         }
 
-        WeightedGraph<T> mst = new WeightedUndirectedGraph<>();
+        Graph<T> mst = new UndirectedGraph<>();
 
         for (T v : graph.getVertices()) {
             mst.add(v);

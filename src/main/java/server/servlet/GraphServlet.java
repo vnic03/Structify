@@ -12,19 +12,16 @@ import java.io.IOException;
 
 public class GraphServlet<T> extends StructureServlet<T> {
 
+    private final Graph<T> graph;
 
-    public GraphServlet(Class<T> classType, GType graphType, Boolean d) {
-        super(init(graphType, d), classType);
+    public GraphServlet(Class<T> type, boolean directed) {
+        super(directed ? new DirectedGraph<>() : new UndirectedGraph<>(), type);
+        this.graph = (Graph<T>) structure;
     }
-
-    public GraphServlet(Class<T> classType, GType graphType) {
-        super(init(graphType, null), classType);
-    }
-
 
     @Override
     protected void handlePost(T value, HttpServletResponse resp) throws IOException {
-        structure.add(value);
+        graph.add(value);
         resp.setStatus(HttpServletResponse.SC_OK);
     }
 
@@ -40,23 +37,25 @@ public class GraphServlet<T> extends StructureServlet<T> {
 
         JsonObject json = gson.fromJson(body.toString(), JsonObject.class);
 
-        JsonElement valueElement = json.get("value");
-        JsonElement edgeElement = json.get("edge");
+        JsonElement v = json.get("value");
+        JsonElement e = json.get("edge");
 
-        if (valueElement != null && edgeElement == null) {
-            T value = gson.fromJson(valueElement, type);
+        if (v != null && e == null) {
+            T value = gson.fromJson(v, type);
             handlePost(value, resp);
 
-        } else if (edgeElement != null) {
-            JsonObject edge = edgeElement.getAsJsonObject();
+        } else if (e != null) {
+            JsonObject edge = e.getAsJsonObject();
+
             T src = gson.fromJson(edge.get("src"), type);
             T dest = gson.fromJson(edge.get("dest"), type);
 
             if (edge.has("weight")) {
                 double weight = edge.get("weight").getAsDouble();
-                ((WeightedGraph<T>) structure).addEdge(src, dest, weight);
+                graph.addEdge(src, dest, weight);
+
             } else {
-                ((Graph<T>) structure).addEdge(src, dest);
+                graph.addEdge(src, dest);
             }
             resp.setStatus(HttpServletResponse.SC_OK);
         }
@@ -69,12 +68,14 @@ public class GraphServlet<T> extends StructureServlet<T> {
 
         } else if ("edge".equals(action)) {
             JsonObject edge = gson.fromJson(value.toString(), JsonObject.class);
+
             T src = gson.fromJson(edge.get("src"), type);
             T dest = gson.fromJson(edge.get("dest"), type);
-            ((Graph<T>) structure).removeEdge(src, dest);
+
+            graph.removeEdge(src, dest);
 
         } else {
-            ((Graph<T>) structure).remove(value);
+            graph.remove(value);
         }
         resp.setStatus(HttpServletResponse.SC_OK);
     }
@@ -103,22 +104,5 @@ public class GraphServlet<T> extends StructureServlet<T> {
         } else {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
         }
-    }
-
-    public enum GType {
-        DIRECTED, UNDIRECTED, WEIGHTED
-    }
-
-    private static <T> Graph<T> init(GType type, Boolean d) {
-        switch (type) {
-            case DIRECTED -> {
-                return new DirectedGraph<>();
-            } case UNDIRECTED -> {
-                return new UndirectedGraph<>();
-            } case WEIGHTED -> {
-                return d ? new WeightedDirectedGraph<>() : new WeightedUndirectedGraph<>();
-            }
-        }
-        return null;
     }
 }

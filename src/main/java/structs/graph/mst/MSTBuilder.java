@@ -1,16 +1,16 @@
 package structs.graph.mst;
 
+import structs.Graph;
 import structs.graph.Edge;
-import structs.graph.WeightedGraph;
 
 
 abstract class MSTBuilder<T> {
 
-    protected final WeightedGraph<T> graph;
+    protected final Graph<T> graph;
 
-    protected WeightedGraph<T> mst;
+    protected Graph<T> mst;
 
-    protected MSTBuilder(WeightedGraph<T> graph) {
+    protected MSTBuilder(Graph<T> graph) {
         this.graph = graph;
         this.mst = null;
     }
@@ -19,6 +19,19 @@ abstract class MSTBuilder<T> {
 
     protected double getTotalWeight() {
         return mst.getEdges().stream().mapToDouble(Edge::weight).sum();
+    }
+
+    protected void checkGraph() {
+        for (Edge<T> edge : graph.getEdges()) {
+            if (edge.weight() == null) {
+                throw new IllegalArgumentException(
+                        String.format(
+                                "Edge with src %s and dest %s has no weight",
+                                edge.source(), edge.destination()
+                        )
+                );
+            }
+        }
     }
 
     @Override

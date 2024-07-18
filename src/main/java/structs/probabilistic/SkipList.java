@@ -1,6 +1,8 @@
 package structs.probabilistic;
 
 import structs.List;
+import structs.Structure;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -32,13 +34,19 @@ public class SkipList<T extends Comparable<T>> implements List<T> {
         this.head = new Node<>(null, MAX_LEVEL);
     }
 
-    public SkipList(SkipList<T> other) {
+    public SkipList(Structure<T> other) {
         this();
         for (T value : other) {
             this.add(value);
         }
     }
 
+    public SkipList(Collection<T> other) {
+        this();
+        for (T value : other) {
+            this.add(value);
+        }
+    }
 
     @Override
     public void add(T x) {
@@ -201,6 +209,28 @@ public class SkipList<T extends Comparable<T>> implements List<T> {
             level++;
         }
         return level;
+    }
+
+    @Override
+    public String toString() {
+        if (isEmpty()) return "[]";
+        StringBuilder sb = new StringBuilder();
+
+        for (int level = MAX_LEVEL; level >= 0; level--) {
+            Node<T> current = head.forward[level];
+            if (current != null) {
+                sb.append("h ").append(level).append(": [");
+                while (current != null) {
+                    sb.append(current.value);
+                    current = current.forward[level];
+                    if (current != null) {
+                        sb.append(", ");
+                    }
+                }
+                sb.append("]\n");
+            }
+        }
+        return sb.toString();
     }
 
     @Override

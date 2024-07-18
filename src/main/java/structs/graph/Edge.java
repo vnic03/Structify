@@ -20,13 +20,20 @@ public record Edge<V>(Graph<V> graph, V source, V destination, Double weight)
         Edge<?> edge = (Edge<?>) o;
         if (graph instanceof DirectedGraph) {
             return Objects.equals(source, edge.source) &&
-                    Objects.equals(destination, edge.destination) &&
-                    Objects.equals(weight, edge.weight);
+                    Objects.equals(destination, edge.destination);
         } else {
-            return (Objects.equals(source, edge.source) && Objects.equals(destination, edge.destination) &&
-                    Objects.equals(weight, edge.weight)) ||
-                    (Objects.equals(source, edge.destination) && Objects.equals(destination, edge.source) &&
-                            Objects.equals(weight, edge.weight));
+            return (Objects.equals(source, edge.source) && Objects.equals(destination, edge.destination)) ||
+                    (Objects.equals(source, edge.destination) && Objects.equals(destination, edge.source));
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        if (graph instanceof DirectedGraph) {
+            return Objects.hash(source, destination);
+        } else {
+            return Objects.hash(source, destination) +
+                    Objects.hash(destination, source);
         }
     }
 

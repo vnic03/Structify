@@ -1,20 +1,21 @@
 package structs.graph.mst;
 
+import structs.Graph;
 import structs.graph.Edge;
-import structs.graph.WeightedGraph;
-import structs.graph.WeightedUndirectedGraph;
+import structs.graph.UndirectedGraph;
 import java.util.*;
 
 
 class Kruskal<T> extends MSTBuilder<T> {
 
-    protected Kruskal(WeightedGraph<T> graph) {
+    protected Kruskal(Graph<T> graph) {
         super(graph);
         super.mst = kruskal();
     }
 
-    private WeightedGraph<T> kruskal() {
-        WeightedUndirectedGraph<T> mst = new WeightedUndirectedGraph<>();
+    private Graph<T> kruskal() {
+        checkGraph();
+        Graph<T> mst = new UndirectedGraph<>();
         UnionFind unionFind = new UnionFind();
 
         for (T vertex : graph.getVertices()) {

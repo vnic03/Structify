@@ -1,26 +1,10 @@
 package structs.graph;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class UndirectedGraph<T> extends BaseGraph<T> {
-
-
-    @Override
-    public void addEdge(T src, T dest) {
-        if (!vertices.contains(src)) {
-            throw new IllegalArgumentException(
-                    String.format("Source vertex %s does not exist in the graph!", src)
-            );
-        }
-        if (!vertices.contains(dest)) {
-            throw new IllegalArgumentException(
-                    String.format("Destination vertex %s does not exist in the graph!", dest)
-            );
-        }
-        edges.add(new Edge<>(this, src, dest));
-    }
 
     @Override
     public boolean removeEdge(T src, T dest) {
@@ -34,7 +18,8 @@ public class UndirectedGraph<T> extends BaseGraph<T> {
     public Edge<T> getEdge(T src, T dest) {
         for (Edge<T> edge : edges) {
             if ((edge.source().equals(src) && edge.destination().equals(dest)) ||
-                    (edge.source().equals(dest) && edge.destination().equals(src))) {
+                    (edge.source().equals(dest) && edge.destination().equals(src)))
+            {
                 return edge;
             }
         }
@@ -42,8 +27,8 @@ public class UndirectedGraph<T> extends BaseGraph<T> {
     }
 
     @Override
-    public List<T> getNeighbors(T vertex) {
-        final List<T> neighbors = new ArrayList<>();
+    public Set<T> getNeighbors(T vertex) {
+        final Set<T> neighbors = new HashSet<>();
         for (Edge<T> edge : edges) {
 
             if (edge.source().equals(vertex)) {

@@ -4,7 +4,6 @@ import algorithms.sort.MergeSort;
 import algorithms.sort.Sorter;
 import structs.Graph;
 import structs.graph.Edge;
-import structs.graph.WeightedGraph;
 import structs.Queue;
 import structs.Stack;
 import structs.linked.LinkedQueue;
@@ -22,7 +21,6 @@ public class GraphAlgoUtility<T extends Comparable<T>> {
     public GraphAlgoUtility(Graph<T> graph) {
         this.graph = graph;
     }
-
 
     public List<T> bfs(T start) {
         List<T> result = new ArrayList<>();
@@ -162,8 +160,15 @@ public class GraphAlgoUtility<T extends Comparable<T>> {
 
 
     private void check() {
-        if (!(graph instanceof WeightedGraph)) {
-            throw new IllegalArgumentException("Graph must be weighted");
+        for (Edge<T> edge : graph.getEdges()) {
+            if (edge.weight() == null) {
+                throw new IllegalArgumentException(
+                        String.format(
+                                "Edge with src %s and dest %s has no weight",
+                                edge.source(), edge.destination()
+                        )
+                );
+            }
         }
     }
 }

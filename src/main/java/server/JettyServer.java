@@ -13,7 +13,9 @@ import java.util.EnumSet;
 
 public class JettyServer {
 
+
     private static final String HOST = "http://localhost:8080";
+
 
     public static void main(String[] args) throws Exception {
         Server server = new Server(8080);
@@ -23,6 +25,15 @@ public class JettyServer {
         context.setContextPath("/");
         server.setHandler(context);
 
+        configureServlets(context);
+
+        configureCors(context);
+
+        server.start();
+        server.join();
+    }
+
+    private static void configureServlets(ServletContextHandler context) {
         // Stack
         add(context, new StackServlet<>(Number.class), "stack/number");
         add(context, new StackServlet<>(String.class), "stack/string");
@@ -43,16 +54,20 @@ public class JettyServer {
         add(context, new HeapServlet<>(String.class, false), "heap/max/string");
 
         // Graphs
-        add(context, new GraphServlet<>(Double.class, GraphServlet.GType.DIRECTED), "graph/directed/number");
-        add(context, new GraphServlet<>(String.class, GraphServlet.GType.DIRECTED), "graph/directed/string");
-        add(context, new GraphServlet<>(Double.class, GraphServlet.GType.UNDIRECTED), "graph/undirected/number");
-        add(context, new GraphServlet<>(String.class, GraphServlet.GType.UNDIRECTED), "graph/undirected/string");
-        // true == WeightedDirected-, false = WeightedUndirectedGraph
-        add(context, new GraphServlet<>(Double.class, GraphServlet.GType.WEIGHTED, true), "graph/weighteddirected/number");
-        add(context, new GraphServlet<>(String.class, GraphServlet.GType.WEIGHTED, true), "graph/weighteddirected/string");
-        add(context, new GraphServlet<>(Double.class, GraphServlet.GType.WEIGHTED, false), "graph/weightedundirected/number");
-        add(context, new GraphServlet<>(String.class, GraphServlet.GType.WEIGHTED, false), "graph/weightedundirected/string");
+        // boolean directed: if true DirectedGraph else UnDirectedGraph
+        add(context, new GraphServlet<>(Double.class, true), "graph/directed/number");
+        add(context, new GraphServlet<>(String.class, true), "graph/directed/string");
+        add(context, new GraphServlet<>(Double.class, false), "graph/undirected/number");
+        add(context, new GraphServlet<>(String.class, false), "graph/undirected/string");
+    }
 
+    private static void add(ServletContextHandler context, HttpServlet servlet, String p) {
+        String path = "/structures/" + p;
+        context.addServlet(new ServletHolder(servlet), path);
+        System.out.println(("Servlet at " + HOST + path));
+    }
+
+    private static void configureCors(ServletContextHandler context) {
         FilterHolder cors = context.addFilter(
                 CrossOriginFilter.class, "/*",
                 EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST)
@@ -62,14 +77,5 @@ public class JettyServer {
         cors.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "*");
         cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,POST,DELETE,HEAD");
         cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "X-Requested-With,Content-Type,Accept,Origin");
-
-        server.start();
-        server.join();
-    }
-
-    private static void add(ServletContextHandler context, HttpServlet servlet, String p) {
-        String path = "/structures/" + p;
-        context.addServlet(new ServletHolder(servlet), path);
-        System.out.println(("Servlet at " + HOST + path));
     }
 }
