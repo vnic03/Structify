@@ -12,7 +12,7 @@ abstract class BaseGraph<T> implements Graph<T> {
 
     protected final Set<Edge<T>> edges;
 
-    private boolean isWeighted;
+    protected boolean isWeighted;
 
 
     protected BaseGraph() {
@@ -54,6 +54,9 @@ abstract class BaseGraph<T> implements Graph<T> {
                 edge -> edge.source().equals(vertex) ||
                 edge.destination().equals(vertex)
         );
+        if (isWeighted) {
+            isWeighted = edges.stream().anyMatch(e -> e.weight() != null);
+        }
         return vertices.remove(vertex);
     }
 

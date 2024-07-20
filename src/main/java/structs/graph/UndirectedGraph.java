@@ -8,10 +8,14 @@ public class UndirectedGraph<T> extends BaseGraph<T> {
 
     @Override
     public boolean removeEdge(T src, T dest) {
-        return edges.removeIf(
+        boolean result = edges.removeIf(
                 edge -> edge.source().equals(src) && edge.destination().equals(dest) ||
                         edge.source().equals(dest) && edge.destination().equals(src)
                 );
+        if (isWeighted) {
+            isWeighted = edges.stream().anyMatch(e -> e.weight() != null);
+        }
+        return result;
     }
 
     @Override
