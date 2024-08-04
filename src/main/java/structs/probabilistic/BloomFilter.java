@@ -9,14 +9,14 @@ public class BloomFilter<T> implements Structure<T> {
 
     private final BitSet bitSet;
 
-    private final int bitSetSize;
+    protected final int bitSetSize;
 
     private final int hashCount;
 
     private final Function<T, Integer>[] hashFunctions;
 
     // keeps track of the number of times each bit position has been set
-    private final int[] counters;
+    protected final int[] counters;
 
 
     public BloomFilter(int bitSetSize, int hashCount, Function<T, Integer>[] hashFunctions) {
@@ -41,7 +41,7 @@ public class BloomFilter<T> implements Structure<T> {
         this.counters = new int[bitSetSize];
     }
 
-    private int[] getHashes(T value) {
+    protected int[] getHashes(T value) {
         int[] hashes = new int[hashCount];
         for (int i = 0; i < hashCount; i++) {
             hashes[i] = Math.abs(
