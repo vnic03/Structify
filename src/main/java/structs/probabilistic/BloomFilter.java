@@ -85,6 +85,24 @@ public class BloomFilter<T> implements Structure<T> {
         bitSet.set(index);
     }
 
+    public BloomFilter<T> union(BloomFilter<T> one, BloomFilter<T> two) {
+        if (one.bitSetSize != two.bitSetSize || one.hashCount != two.hashCount) {
+            throw new IllegalArgumentException(
+                    "Bloom filters must be of the same size and have the same number of hash functions."
+            );
+        }
+        BloomFilter<T> bf = new BloomFilter<>(one.bitSetSize, one.hashCount, one.hashFunctions);
+
+        for (int i = 0; i < one.bitSetSize; i++) {
+            if (one.bitSet.get(i) || two.bitSet.get(i)) {
+                bf.setBit(i);
+                bf.counters[i] = one.counters[i] + two.counters[i];
+            }
+        }
+        return bf;
+    }
+
+
     @Override
     public boolean isEmpty() {
         return bitSet.isEmpty();

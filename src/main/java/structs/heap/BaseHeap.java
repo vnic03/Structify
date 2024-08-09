@@ -142,4 +142,9 @@ abstract class BaseHeap<T extends Comparable<T>> extends ArrayBase<T> implements
     protected T parent(int index) {
         return array[getParentIndex(index)];
     }
+
+    @Override
+    public void print() {
+        System.out.println(Arrays.toString(array));
+    }
 }

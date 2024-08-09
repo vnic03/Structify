@@ -28,4 +28,9 @@ public class BinaryNode<N> implements Tree.Node<N> {
     public BinaryNode<N> getRight() {
         return right;
     }
+
+    @Override
+    public String toString() {
+        return "[" + data + "]";
+    }
 }

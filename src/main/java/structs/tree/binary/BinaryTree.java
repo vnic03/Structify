@@ -154,10 +154,15 @@ public class BinaryTree<T> implements Tree<T> {
     }
 
     @Override
-    public String toString() {
+    public void print() {
         StringBuilder sb = new StringBuilder();
         toString(root, sb, "", "");
-        return sb.toString();
+        System.out.println(sb);
+    }
+
+    @Override
+    public String toString() {
+        return Traverser.inorder(root).toString();
     }
 
     private void toString(BinaryNode<T> node, StringBuilder sb, String prefix, String childrenPrefix) {

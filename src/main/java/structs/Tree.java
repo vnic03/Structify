@@ -13,6 +13,8 @@ public interface Tree<T> extends Structure<T> {
 
     int getHeight();
 
+    void print();
+
 
     interface Node<N> {
 

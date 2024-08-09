@@ -126,4 +126,28 @@ public class Trie implements Tree<String> {
         root.children.clear();
         root.isCompleteWord = false;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        toString(root, new StringBuilder(), sb);
+        return sb.toString();
+    }
+
+    private void toString(TrieNode node, StringBuilder currentWord, StringBuilder sb) {
+        if (node.isCompleteWord) {
+            sb.append(currentWord).append("\n");
+        }
+
+        for (Map.Entry<Character, TrieNode> entry : node.children.entrySet()) {
+            currentWord.append(entry.getKey());
+            toString(entry.getValue(), currentWord, sb);
+            currentWord.deleteCharAt(currentWord.length() - 1);
+        }
+    }
+
+    @Override
+    public void print() {
+        System.out.println(this);
+    }
 }

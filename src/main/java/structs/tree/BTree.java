@@ -361,6 +361,11 @@ public class BTree<T extends Comparable<T>> implements Tree<T> {
         return sb.toString();
     }
 
+    @Override
+    public void print() {
+        System.out.println(this);
+    }
+
     private void toString(BNode node, StringBuilder sb, int level) {
         if (!node.leaf) {
             for (int i = 0; i <= node.n ; i++) {
